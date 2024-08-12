@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.TaskStackBuilder;
 import cc.winboll.studio.shared.log.LogUtils;
+import com.hjq.toast.ToastUtils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,19 +22,21 @@ public class WinBollActivityManager {
 
     public static final String TAG = "WinBollActivityManager";
 
+    Context mContext;
     static WinBollActivityManager _mWinBollActivityManager;
     static Map<String, WinBollActivity> _mWinBollActivityArrayMap;
 
-    public WinBollActivityManager() {
+    public WinBollActivityManager(Context context) {
+        mContext = context;
         LogUtils.d(TAG, "WinBollActivityManager()");
         _mWinBollActivityArrayMap = new HashMap<String, WinBollActivity>();
     }
 
-    public static synchronized WinBollActivityManager getInstance() {
+    public static synchronized WinBollActivityManager getInstance(Context context) {
         LogUtils.d(TAG, "getInstance");
         if (_mWinBollActivityManager == null) {
             LogUtils.d(TAG, "_mWinBollActivityManager == null");
-            _mWinBollActivityManager = new WinBollActivityManager();
+            _mWinBollActivityManager = new WinBollActivityManager(context);
         }
         return _mWinBollActivityManager;
     }
@@ -42,15 +45,17 @@ public class WinBollActivityManager {
      * 把Activity添加到管理中
      */
     public <T extends WinBollActivity> void add(T activity) {
-        LogUtils.d(TAG, "add");
+        LogUtils.d(TAG, "add activity.getTag() " + activity.getTag());
+        //ToastUtils.show("add activity.getTag() " + activity.getTag());
         if (activity != null) {
+            LogUtils.d(TAG, "activity != null");
             //如果是 BaseActivity 则缓存起来
-            if (activity instanceof WinBollActivity) {
-                String tag = activity.getTag();
-                //存入内存中
-                LogUtils.d(TAG, "_mWinBollActivityManager.put(tag, activity); " + tag);
-                _mWinBollActivityArrayMap.put(tag, activity);
-            }
+            String tag = activity.getTag();
+            //存入内存中
+            LogUtils.d(TAG, "_mWinBollActivityManager.put(tag, activity); " + tag);
+            //ToastUtils.show("_mWinBollActivityManager.put(tag, activity); " + tag);
+            _mWinBollActivityArrayMap.put(tag, activity);
+            //printAvtivityListInfo();
         }
     }
 
@@ -58,13 +63,13 @@ public class WinBollActivityManager {
      * 判断 tag绑定的 MyActivity是否存在
      */
     public boolean isActive(String tag) {
-        LogUtils.d(TAG, "isActive");
-        printAvtivityListInfo();
-//        for (int i = 0; i < _mArrayMap.size(); i++) {
-//            LogUtils.d(TAG, _mArrayMap.toString());
-//        }
+        //ToastUtils.show("isActive tag " + tag);
+        LogUtils.d(TAG, "isActive " + tag);
+        //printAvtivityListInfo();
         WinBollActivity activity = _mWinBollActivityArrayMap.get(tag);
         if (activity != null) {
+            LogUtils.d(TAG, "activity != null tag " + tag);
+            //ToastUtils.show("activity != null tag " + tag);
             //判断是否为 BaseActivity,如果已经销毁，则移除
             if (activity.isFinishing() || activity.isDestroyed()) {
                 _mWinBollActivityArrayMap.remove(tag);
@@ -99,6 +104,25 @@ public class WinBollActivityManager {
             am.moveTaskToFront(activity.getTaskId(), ActivityManager.MOVE_TASK_NO_USER_ACTION);
         }
     }
+    
+
+    /**
+     * 结束所有 Activity
+     */
+    public void finishAll() {
+        try {
+            Iterator<Map.Entry<String, WinBollActivity>> iterator = _mWinBollActivityArrayMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, WinBollActivity> entry = iterator.next();
+                WinBollActivity activity = entry.getValue();
+                if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                    activity.finish();
+                }
+            }
+        } catch (Exception e) {
+            LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
+        }
+    }
 
     /**
      * 结束指定Activity
@@ -107,9 +131,16 @@ public class WinBollActivityManager {
         try {
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                 //根据tag 移除 MyActivity
-                if (activity instanceof WinBollActivity) {
-                    String tag= activity.TAG;
-                    _mWinBollActivityArrayMap.remove(tag);
+                String tag= activity.getTag();
+                _mWinBollActivityArrayMap.remove(tag);
+                //ToastUtils.show("remove");
+                //ToastUtils.show("_mWinBollActivityArrayMap.size() " + Integer.toString(_mWinBollActivityArrayMap.size()));
+                Iterator<Map.Entry<String, WinBollActivity>> iterator = _mWinBollActivityArrayMap.entrySet().iterator();
+                if (iterator.hasNext()) {
+                    Map.Entry<String, WinBollActivity> entry = iterator.next();
+                    //sb.append("\nKey: " + entry.getKey() + ", \nValue: " + entry.getValue().getTag());
+                    //ToastUtils.show("\nKey: " + entry.getKey() + ", Value: " + entry.getValue().getTag());
+                    resumeActivity(mContext, entry.getValue().getTag());
                 }
                 activity.finish();
             }
@@ -119,15 +150,18 @@ public class WinBollActivityManager {
     }
 
     public static void printAvtivityListInfo() {
+        //LogUtils.d(TAG, "printAvtivityListInfo");
         if (!_mWinBollActivityArrayMap.isEmpty()) {
-            LogUtils.d(TAG, "Map entries:");
+            StringBuilder sb = new StringBuilder("Map entries : " + Integer.toString(_mWinBollActivityArrayMap.size()));
             Iterator<Map.Entry<String, WinBollActivity>> iterator = _mWinBollActivityArrayMap.entrySet().iterator();
-
             while (iterator.hasNext()) {
                 Map.Entry<String, WinBollActivity> entry = iterator.next();
-                LogUtils.d(TAG, "Key: " + entry.getKey() + ", Value: " + entry.getValue().getTag());
+                sb.append("\nKey: " + entry.getKey() + ", \nValue: " + entry.getValue().getTag());
+                //ToastUtils.show("\nKey: " + entry.getKey() + ", Value: " + entry.getValue().getTag());
             }
-            LogUtils.d(TAG, "Map entries end.");
+            sb.append("\nMap entries end.");
+            LogUtils.d(TAG, sb.toString());
+            //ToastUtils.show(sb.toString());
         } else {
             LogUtils.d(TAG, "The map is empty.");
         }

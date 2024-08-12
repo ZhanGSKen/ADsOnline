@@ -17,6 +17,11 @@ public class LogActivity extends WinBollActivity {
     LogView mLogView;
 
     @Override
+    protected boolean isEnableDisplayHomeAsUp() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         LogUtils.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
@@ -34,13 +39,18 @@ public class LogActivity extends WinBollActivity {
     }
 
     @Override
+    protected boolean isAddWinBollToolBar() {
+        return false;
+    }
+
+    @Override
     protected Toolbar initToolBar() {
         LogUtils.d(TAG, "initToolBar");
         return null;
     }
 
     @Override
-    protected String getTag() {
+    public String getTag() {
         LogUtils.d(TAG, "getTag");
         return TAG;
     }

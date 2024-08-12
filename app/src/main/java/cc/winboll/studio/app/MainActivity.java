@@ -17,18 +17,29 @@ final public class MainActivity extends WinBollActivity {
 
 	public static final String TAG = "MainActivity";
 
+    public static final int REQUEST_HOME_ACTIVITY = 0;
+    public static final int REQUEST_ABOUT_ACTIVITY = 1;
+
     @Override
-    protected String getTag()
-    {
-        return TAG;
+    protected boolean isEnableDisplayHomeAsUp() {
+        return false;
     }
-    
-    public static final int REQUEST_ABOUT_ACTIVITY = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+    
+    @Override
+    public String getTag() {
+        return TAG;
+    }
+    
+
+    @Override
+    protected boolean isAddWinBollToolBar() {
+        return true;
     }
 
     @Override
@@ -54,24 +65,30 @@ final public class MainActivity extends WinBollActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_main, menu);
         return super.onCreateOptionsMenu(menu);
-
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_about) {
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivityForResult(intent, REQUEST_ABOUT_ACTIVITY);
+            try {
+                WinBollActivity clazzActivity = AboutActivity.class.newInstance();
+                String tag = clazzActivity.getTag();
+                LogUtils.d(TAG, "String tag = clazzActivity.getTag(); tag " + tag);
+                Intent intent = new Intent(this, AboutActivity.class);
+                startWinBollActivity(intent, tag);
+            } catch (IllegalAccessException e) {} catch (InstantiationException e) {}
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
+            case REQUEST_HOME_ACTIVITY : {
+                    LogUtils.d(TAG, "REQUEST_HOME_ACTIVITY");
+                    break;
+                }
             case REQUEST_ABOUT_ACTIVITY : {
                     LogUtils.d(TAG, "REQUEST_ABOUT_ACTIVITY");
                     break;
