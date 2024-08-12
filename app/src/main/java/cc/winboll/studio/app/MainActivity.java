@@ -9,6 +9,9 @@ import android.widget.Toast;
 import cc.winboll.studio.app.activities.AboutActivity;
 import cc.winboll.studio.app.activities.BaseActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.hjq.toast.ToastUtils;
+import android.os.Handler;
+import android.os.Looper;
 
 public class MainActivity extends BaseActivity {
 
@@ -29,13 +32,16 @@ public class MainActivity extends BaseActivity {
 
     
     public void onTestAPPCrashHandler(View view) {
-        Toast.makeText(getApplication(), "onTestAPPCrashHandler in 3 seconds", Toast.LENGTH_SHORT).show();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {}
-        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
-            getString(i);
-        }
+        ToastUtils.show("onTestAPPCrashHandler in 3 seconds");
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable(){
+
+                @Override
+                public void run() {
+                    for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+                        getString(i);
+                    }
+                }
+            }, 3000);
     }
 
     @Override
@@ -59,7 +65,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case REQUEST_AOUT_ACTIVITY : {
-                    Toast.makeText(getApplication(), "REQUEST_LOGACTIVITY", Toast.LENGTH_SHORT).show();
+                    ToastUtils.show("REQUEST_LOGACTIVITY");
                     break;
                 }
             default : {
