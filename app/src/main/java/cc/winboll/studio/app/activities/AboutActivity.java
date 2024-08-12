@@ -15,6 +15,12 @@ final public class AboutActivity extends BaseActivity {
     public static final String TAG = "AboutFragmentActivity";
 
     @Override
+    protected String getTag()
+    {
+        return TAG;
+    }
+    
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);

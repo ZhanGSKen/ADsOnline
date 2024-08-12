@@ -3,15 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="cc.winboll.studio">
 
+    <!-- 此应用可显示在其他应用上方 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <!-- 对正在运行的应用重新排序 -->
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+
+    <!-- 调用后台任务窗口到前台 -->
+    <uses-permission android:name="android.permission.MOVE_TASK_TO_FRONT"/>
+        
     <application>
 
-        <activity android:name=".library.CrashHandler$CrashActiviy"/>
+        <activity
+            android:name=".library.CrashHandler$CrashActiviy"
+            android:label="CrashActiviy"
+            android:icon="@drawable/ic_launcher"
+            android:launchMode="standard"/>
 
         <activity
             android:name=".LibraryActivity"
-            android:label="@string/lib_name"/>
+            android:label="@string/lib_name"
+            android:icon="@drawable/ic_launcher"
+            android:launchMode="standard"/>
 
-        <activity android:name="cc.winboll.studio.library.LogActivity"/>
+        <activity
+            android:name=".library.LogActivity"
+            android:label="LogActivity"
+            android:icon="@drawable/ic_launcher"
+            android:launchMode="standard"/>
 
     </application>
 

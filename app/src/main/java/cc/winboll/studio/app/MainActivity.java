@@ -13,10 +13,16 @@ import cc.winboll.studio.library.BaseActivity;
 import cc.winboll.studio.library.LogUtils;
 import com.hjq.toast.ToastUtils;
 
-public class MainActivity extends BaseActivity {
+final public class MainActivity extends BaseActivity {
 
 	public static final String TAG = "MainActivity";
 
+    @Override
+    protected String getTag()
+    {
+        return TAG;
+    }
+    
     public static final int REQUEST_ABOUT_ACTIVITY = 0;
 
     @Override
