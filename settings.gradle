@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "WinBoll-APP"
+rootProject.name = "WinBoll"

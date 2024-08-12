@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cc.winboll.studio.winboll">
+    package="cc.winboll.studio.app">
 
     <application
         android:name=".GlobalApplication"
@@ -26,17 +26,7 @@
 
         </activity>
 
-        <activity android:name=".activities.LogActivity"/>
-
-        <activity android:name=".activities.BeanActivity"/>
-
-        <activity
-            android:theme="@style/AppSupportTheme"
-            android:name="cc.winboll.studio.winboll.activities.AboutSupportFragmentActivity"/>
-
         <activity android:name="cc.winboll.studio.winboll.activities.AboutActivity"/>
-
-        <activity android:name="cc.winboll.studio.winboll.activities.TestRSAKeyUtilsActivity"/>
 
     </application>
 
