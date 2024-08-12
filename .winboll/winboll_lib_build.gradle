@@ -8,7 +8,7 @@ def getDefaultVersion(){
     return winbollBuildProps['publishVersion']
 }
 
-def siteUrl = 'https://winboll.cc/${rootProject.name}' // 项目主页
+def siteUrl = 'https://studio.winboll.cc/${rootProject.name}' // 项目主页
 def gitUrl = 'https://git.winboll.cc/Studio/${rootProject.name}' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio' // 类库所有者groupId
 def DefaultVersion = getDefaultVersion() // 版本号

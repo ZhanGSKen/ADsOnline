@@ -1,4 +1,4 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.app;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -12,43 +12,44 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.TaskStackBuilder;
+import cc.winboll.studio.shared.log.LogUtils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ActManager {
+public class WinBollActivityManager {
 
-    public static final String TAG = "ActManager";
+    public static final String TAG = "WinBollActivityManager";
 
-    static ActManager _mActManager;
-    static Map<String, BaseActivity> _mArrayMap;
+    static WinBollActivityManager _mWinBollActivityManager;
+    static Map<String, WinBollActivity> _mWinBollActivityArrayMap;
 
-    public ActManager() {
-        LogUtils.d(TAG, "ActManager()");
-        _mArrayMap = new HashMap<String, BaseActivity>();
+    public WinBollActivityManager() {
+        LogUtils.d(TAG, "WinBollActivityManager()");
+        _mWinBollActivityArrayMap = new HashMap<String, WinBollActivity>();
     }
 
-    public static synchronized ActManager getInstance() {
+    public static synchronized WinBollActivityManager getInstance() {
         LogUtils.d(TAG, "getInstance");
-        if (_mActManager == null) {
-            LogUtils.d(TAG, "_mActManager == null");
-            _mActManager = new ActManager();
+        if (_mWinBollActivityManager == null) {
+            LogUtils.d(TAG, "_mWinBollActivityManager == null");
+            _mWinBollActivityManager = new WinBollActivityManager();
         }
-        return _mActManager;
+        return _mWinBollActivityManager;
     }
 
     /**
      * 把Activity添加到管理中
      */
-    public <T extends BaseActivity> void add(T activity) {
+    public <T extends WinBollActivity> void add(T activity) {
         LogUtils.d(TAG, "add");
         if (activity != null) {
             //如果是 BaseActivity 则缓存起来
-            if (activity instanceof BaseActivity) {
+            if (activity instanceof WinBollActivity) {
                 String tag = activity.getTag();
                 //存入内存中
-                LogUtils.d(TAG, "_mArrayMap.put(tag, activity); " + tag);
-                _mArrayMap.put(tag, activity);
+                LogUtils.d(TAG, "_mWinBollActivityManager.put(tag, activity); " + tag);
+                _mWinBollActivityArrayMap.put(tag, activity);
             }
         }
     }
@@ -62,12 +63,12 @@ public class ActManager {
 //        for (int i = 0; i < _mArrayMap.size(); i++) {
 //            LogUtils.d(TAG, _mArrayMap.toString());
 //        }
-        BaseActivity activity = _mArrayMap.get(tag);
+        WinBollActivity activity = _mWinBollActivityArrayMap.get(tag);
         if (activity != null) {
             //判断是否为 BaseActivity,如果已经销毁，则移除
             if (activity.isFinishing() || activity.isDestroyed()) {
-                _mArrayMap.remove(tag);
-                LogUtils.d(TAG, "mArrayMap.remove(tag);");
+                _mWinBollActivityArrayMap.remove(tag);
+                LogUtils.d(TAG, "_mWinBollActivityManager.remove(tag);");
                 return false;
             } else {
                 LogUtils.d(TAG, activity.TAG + " Exist.");
@@ -82,9 +83,9 @@ public class ActManager {
     /**
      * 找到tag 绑定的 BaseActivity ，通过 getTaskId() 移动到前台
      */
-    public <T extends BaseActivity> void resumeActivity(Context context, String tag) {
+    public <T extends WinBollActivity> void resumeActivity(Context context, String tag) {
         LogUtils.d(TAG, "resumeActivty");
-        T activity = (T)_mArrayMap.get(tag);
+        T activity = (T)_mWinBollActivityArrayMap.get(tag);
         LogUtils.d(TAG, "activity " + activity.getTag());
         if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
             ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
@@ -95,7 +96,6 @@ public class ActManager {
             stackBuilder.startActivities();
             //moveTaskToFront(YourTaskId, 0);
             LogUtils.d(TAG, "am.moveTaskToFront");
-            
             am.moveTaskToFront(activity.getTaskId(), ActivityManager.MOVE_TASK_NO_USER_ACTION);
         }
     }
@@ -103,13 +103,13 @@ public class ActManager {
     /**
      * 结束指定Activity
      */
-    public <T extends BaseActivity> void finish(T activity) {
+    public <T extends WinBollActivity> void finish(T activity) {
         try {
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                 //根据tag 移除 MyActivity
-                if (activity instanceof BaseActivity) {
+                if (activity instanceof WinBollActivity) {
                     String tag= activity.TAG;
-                    _mArrayMap.remove(tag);
+                    _mWinBollActivityArrayMap.remove(tag);
                 }
                 activity.finish();
             }
@@ -119,17 +119,12 @@ public class ActManager {
     }
 
     public static void printAvtivityListInfo() {
-        // 假设我们有一个名为myMap的Map实例
-        //Map<String, String> _mArrayMap = 
-        // 这里可以根据实际情况填充map的内容
-        // 例如: Map<String, String> _mArrayMap = new HashMap<>();
-
-        if (!_mArrayMap.isEmpty()) {
+        if (!_mWinBollActivityArrayMap.isEmpty()) {
             LogUtils.d(TAG, "Map entries:");
-            Iterator<Map.Entry<String, BaseActivity>> iterator = _mArrayMap.entrySet().iterator();
+            Iterator<Map.Entry<String, WinBollActivity>> iterator = _mWinBollActivityArrayMap.entrySet().iterator();
 
             while (iterator.hasNext()) {
-                Map.Entry<String, BaseActivity> entry = iterator.next();
+                Map.Entry<String, WinBollActivity> entry = iterator.next();
                 LogUtils.d(TAG, "Key: " + entry.getKey() + ", Value: " + entry.getValue().getTag());
             }
             LogUtils.d(TAG, "Map entries end.");

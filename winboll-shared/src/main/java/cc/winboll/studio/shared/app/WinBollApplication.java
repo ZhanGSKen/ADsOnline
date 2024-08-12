@@ -1,13 +1,14 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.app;
 
 import android.app.Application;
 import android.view.Gravity;
 import cc.winboll.studio.R;
+import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
 
-public class GlobalApplication extends Application {
+public class WinBollApplication extends Application {
 
-    public static final String TAG = "GlobalApplication";
+    public static final String TAG = "WinBollApplication";
 
     // 应用调试标志
     volatile static boolean _mIsDebug = true;

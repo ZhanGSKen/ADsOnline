@@ -49,6 +49,6 @@ android {
 }
 
 dependencies {
-	api project(':library')
+	api project(':winboll-shared')
     api fileTree(dir: 'libs', include: ['*.jar'])
 }

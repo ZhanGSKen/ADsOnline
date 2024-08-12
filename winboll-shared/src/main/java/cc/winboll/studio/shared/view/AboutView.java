@@ -1,4 +1,4 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.view;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 import cc.winboll.studio.R;
+import cc.winboll.studio.shared.app.AppVersionUtils;
+import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
 import java.io.IOException;
 import mehdi.sakout.aboutpage.AboutPage;
@@ -63,7 +65,7 @@ public class AboutView extends LinearLayout {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
         mszCurrentAppPackageName = mszAppProjectName + "_" + mszAppVersionName + ".apk";
-        mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppProjectName;
+        mszHomePage = "https://studio.winboll.cc/details.php?app=" + mszAppProjectName;
         mszGitea = "https://git.winboll.cc/Studio/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
@@ -148,7 +150,7 @@ public class AboutView extends LinearLayout {
             new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String szUrl = "https://winboll.cc/studio/details.php?app=" + mszAppProjectName;
+                        String szUrl = "https://studio.winboll.cc/details.php?app=" + mszAppProjectName;
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
                             .url(szUrl)
@@ -196,7 +198,7 @@ public class AboutView extends LinearLayout {
     YesNoAlertDialog.OnDialogResultListener mIsDownlaodUpdateListener = new YesNoAlertDialog.OnDialogResultListener() {
         @Override
         public void onYes() {
-            String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppProjectName + "&apkname=" + mszNewestAppPackageName;
+            String szUrl = "https://studio.winboll.cc/download.php?appname=" + mszAppProjectName + "&apkname=" + mszNewestAppPackageName;
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(szUrl));
             mContext.startActivity(browserIntent);
         }

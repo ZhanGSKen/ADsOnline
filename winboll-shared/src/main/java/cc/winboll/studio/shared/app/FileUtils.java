@@ -1,4 +1,4 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.app;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import androidx.core.content.FileProvider;
+import cc.winboll.studio.shared.log.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,7 +26,7 @@ import java.nio.file.Paths;
 
 public class FileUtils {
 
-    public static final String TAG = "FileUtil";
+    public static final String TAG = "FileUtils";
 
     public static void shareJSONFile(Context context, String szShareFilePath) {
         Uri uri;

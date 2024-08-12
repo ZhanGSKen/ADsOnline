@@ -1,4 +1,4 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.app;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -13,10 +13,12 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import cc.winboll.studio.R;
+import cc.winboll.studio.shared.log.LogActivity;
+import cc.winboll.studio.shared.log.LogUtils;
 
-abstract public class BaseActivity extends AppCompatActivity {
+abstract public class WinBollActivity extends AppCompatActivity {
 
-    public static final String TAG = "BaseActivity";
+    public static final String TAG = "WinBollActivity";
 
     public static final int REQUEST_LOG_ACTIVITY = 0;
 
@@ -39,7 +41,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         // 缓存当前 activity
         LogUtils.d(TAG, "ActManager.getInstance().add(this);");
         LogUtils.d(TAG, "getTag() " + getTag());
-        ActManager.getInstance().add(this);
+        WinBollActivityManager.getInstance().add(this);
     }
 
     @Override
@@ -58,9 +60,9 @@ abstract public class BaseActivity extends AppCompatActivity {
             Context context = this;
             String tag = LogActivity.TAG;
             LogUtils.d(TAG, "tag " + tag);
-            if (ActManager.getInstance().isActive(tag)) {
+            if (WinBollActivityManager.getInstance().isActive(tag)) {
                 LogUtils.d(TAG, "ActManager.getInstance().resumeActivty(tag);");
-                ActManager.getInstance().resumeActivity(this, tag);
+                WinBollActivityManager.getInstance().resumeActivity(this, tag);
             } else {
                 Intent intent = new Intent(context, LogActivity.class);
                 //打开多任务窗口 flags

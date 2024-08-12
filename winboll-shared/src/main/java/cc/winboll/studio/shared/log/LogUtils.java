@@ -1,4 +1,4 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.log;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -7,6 +7,8 @@ package cc.winboll.studio.library;
  * @Describe 应用日志类
  */
 import android.content.Context;
+import cc.winboll.studio.shared.app.FileUtils;
+import cc.winboll.studio.shared.app.WinBollApplication;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,10 +19,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.util.Collections;
-import java.nio.file.StandardOpenOption;
 
 public class LogUtils {
 
@@ -56,7 +54,7 @@ public class LogUtils {
     // 调试日志写入函数
     //
     public static void d(String szTAG, String szMessage) {
-        if (GlobalApplication.isDebug()) {
+        if (WinBollApplication.isDebug()) {
             saveLogDebug(szTAG, szMessage);
         }
     }
@@ -66,7 +64,7 @@ public class LogUtils {
     // 包含线程调试堆栈信息
     //
     public static void d(String szTAG, String szMessage, StackTraceElement[] listStackTrace) {
-        if (GlobalApplication.isDebug()) {
+        if (WinBollApplication.isDebug()) {
             StringBuilder sbMessage = new StringBuilder(szMessage);
             sbMessage.append(" \nAt ");
             sbMessage.append(listStackTrace[2].getMethodName());
@@ -84,7 +82,7 @@ public class LogUtils {
     // 包含异常信息和线程调试堆栈信息
     //
     public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
-        if (GlobalApplication.isDebug()) {
+        if (WinBollApplication.isDebug()) {
             StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
             sbMessage.append(" : ");
             sbMessage.append(e.getMessage());

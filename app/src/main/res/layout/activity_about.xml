@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/activityaboutToolbar1"/>
 
-    <cc.winboll.studio.library.AboutView
+    <cc.winboll.studio.shared.view.AboutView
         app:appname="WinBoll"
         app:appprojectname="WinBoll"
         app:appdescription="WinBoll.CC 网站客户端。"

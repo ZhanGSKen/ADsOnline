@@ -1,18 +1,16 @@
-package cc.winboll.studio.library;
+package cc.winboll.studio.shared.log;
 
-import android.app.Activity;
 import android.os.Bundle;
-import cc.winboll.studio.R;
 import androidx.appcompat.widget.Toolbar;
+import cc.winboll.studio.R;
+import cc.winboll.studio.shared.app.WinBollActivity;
 
 /**
  * @Author ZhanGSKen@QQ.COM
  * @Date 2024/08/12 15:07:58
  * @Describe WinBoll 应用日志窗口
  */
-public class LogActivity extends BaseActivity {
-
-    
+public class LogActivity extends WinBollActivity {
 
     public static final String TAG = "LogActivity";
 
@@ -25,7 +23,7 @@ public class LogActivity extends BaseActivity {
         setContentView(R.layout.activity_log);
         mLogView = findViewById(R.id.logview);
         mLogView.start();
-        
+
     }
 
     @Override
@@ -34,7 +32,7 @@ public class LogActivity extends BaseActivity {
         super.onResume();
         mLogView.start();
     }
-    
+
     @Override
     protected Toolbar initToolBar() {
         LogUtils.d(TAG, "initToolBar");

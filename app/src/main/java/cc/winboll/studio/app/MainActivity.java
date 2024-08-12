@@ -9,11 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import androidx.appcompat.widget.Toolbar;
 import cc.winboll.studio.app.activities.AboutActivity;
-import cc.winboll.studio.library.BaseActivity;
-import cc.winboll.studio.library.LogUtils;
+import cc.winboll.studio.shared.app.WinBollActivity;
+import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
 
-final public class MainActivity extends BaseActivity {
+final public class MainActivity extends WinBollActivity {
 
 	public static final String TAG = "MainActivity";
 

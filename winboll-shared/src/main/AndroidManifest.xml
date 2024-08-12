@@ -11,23 +11,17 @@
 
     <!-- 调用后台任务窗口到前台 -->
     <uses-permission android:name="android.permission.MOVE_TASK_TO_FRONT"/>
-        
+
     <application>
 
         <activity
-            android:name=".library.CrashHandler$CrashActiviy"
+            android:name=".shared.app.CrashHandler$CrashActiviy"
             android:label="CrashActiviy"
             android:icon="@drawable/ic_launcher"
             android:launchMode="standard"/>
 
         <activity
-            android:name=".LibraryActivity"
-            android:label="@string/lib_name"
-            android:icon="@drawable/ic_launcher"
-            android:launchMode="standard"/>
-
-        <activity
-            android:name=".library.LogActivity"
+            android:name=".shared.log.LogActivity"
             android:label="LogActivity"
             android:icon="@drawable/ic_launcher"
             android:launchMode="standard"/>
