@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
-	</style>
+    <style name="AppTheme" parent="WinBol.SupportThemeNoActionBar"/>
+        
+    <style name="WinBol.Theme" parent="@android:style/Theme.DeviceDefault.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="WinBol.SupportTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="WinBol.ThemeNoActionBar" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="WinBol.SupportThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
 </resources>

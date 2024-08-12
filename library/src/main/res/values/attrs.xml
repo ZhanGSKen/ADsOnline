@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AboutView">
+        <attr name="appname" format="string" />
+        <attr name="appprojectname" format="string" />
+        <attr name="appdescription" format="string" />
+        <attr name="appicon" format="reference" />
+    </declare-styleable>
+</resources>

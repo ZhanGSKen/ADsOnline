@@ -1,17 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cc.winboll.studio.app">
+    package="cc.winboll.studio.app"
+    android:sharedUserId="cc.winboll.studio">
 
     <!-- 拥有完全的网络访问权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".GlobalApplication"
+        android:name="cc.winboll.studio.library.GlobalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppSupportThemeNoActionBar"
+        android:theme="@style/WinBol.SupportThemeNoActionBar"
         android:supportsRtl="true">
 
         <activity
@@ -28,8 +29,6 @@
             </intent-filter>
 
         </activity>
-
-        <activity android:name=".CrashHandler$CrashActiviy"/>
 
         <activity android:name=".activities.AboutActivity"/>
 

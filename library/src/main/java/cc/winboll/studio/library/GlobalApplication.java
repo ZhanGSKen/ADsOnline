@@ -1,9 +1,9 @@
-package cc.winboll.studio.app;
+package cc.winboll.studio.library;
 
 import android.app.Application;
-import com.hjq.toast.ToastUtils;
-import com.hjq.toast.style.WhiteToastStyle;
 import android.view.Gravity;
+import cc.winboll.studio.R;
+import com.hjq.toast.ToastUtils;
 
 public class GlobalApplication extends Application {
 

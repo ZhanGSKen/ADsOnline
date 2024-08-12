@@ -1,9 +1,9 @@
 package cc.winboll.studio.app.activities;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import cc.winboll.studio.app.R;
 import androidx.appcompat.widget.Toolbar;
+import cc.winboll.studio.app.R;
+import cc.winboll.studio.library.BaseActivity;
 
 /**
  * @Author ZhanGSKen@QQ.COM

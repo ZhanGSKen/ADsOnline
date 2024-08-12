@@ -1,4 +1,4 @@
-package cc.winboll.studio.app;
+package cc.winboll.studio.library;
 
 /**
  * @Author ZhanGSKen@QQ.COM

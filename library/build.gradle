@@ -1,15 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    namespace 'cc.winboll.studio'
+    
+    compileSdkVersion 32
+    buildToolsVersion "33.0.3"
 
     defaultConfig {
-        applicationId "cc.winboll.studio.library"
-        minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 24
+        targetSdkVersion 30
     }
     buildTypes {
         release {
@@ -17,8 +16,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api 'io.github.medyo:android-about-page:2.0.0'
+    api 'com.github.getActivity:ToastUtils:10.5'
+    api 'com.jcraft:jsch:0.1.55'
+    api 'org.jsoup:jsoup:1.13.1'
+    api 'com.squareup.okhttp3:okhttp:4.4.1'
+    
+    api 'androidx.appcompat:appcompat:1.0.0'
+    api 'androidx.fragment:fragment:1.0.0'
+    api 'com.google.android.material:material:1.0.0'
+    
+    api fileTree(dir: 'libs', include: ['*.jar'])
 }
