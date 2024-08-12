@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+	api project(':library')
     implementation 'io.github.medyo:android-about-page:2.0.0'
     implementation 'com.github.getActivity:ToastUtils:10.5'
     implementation 'com.jcraft:jsch:0.1.55'
