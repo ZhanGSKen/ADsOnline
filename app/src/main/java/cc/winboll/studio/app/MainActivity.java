@@ -1,6 +1,5 @@
 package cc.winboll.studio.app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,8 +7,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import cc.winboll.studio.app.activities.AboutActivity;
+import cc.winboll.studio.app.activities.BaseActivity;
+import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	public static final String TAG = "MainActivity";
 
@@ -21,6 +22,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected Toolbar initToolBar() {
+        return findViewById(R.id.activitymainToolbar1);
+    }
+
+    
     public void onTestAPPCrashHandler(View view) {
         Toast.makeText(getApplication(), "onTestAPPCrashHandler in 3 seconds", Toast.LENGTH_SHORT).show();
         try {
@@ -39,16 +46,13 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.item_about : {
-                    Intent intent = new Intent(this, AboutActivity.class);
-                    startActivityForResult(intent, REQUEST_AOUT_ACTIVITY);
-                    break;
-                }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivityForResult(intent, REQUEST_AOUT_ACTIVITY);
         }
-        return super.onMenuItemSelected(featureId, item);
+        
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
