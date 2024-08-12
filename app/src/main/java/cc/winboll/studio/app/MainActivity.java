@@ -22,6 +22,10 @@ public class MainActivity extends Activity {
     }
 
     public void onTestAPPCrashHandler(View view) {
+        Toast.makeText(getApplication(), "onTestAPPCrashHandler in 3 seconds", Toast.LENGTH_SHORT).show();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {}
         for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
             getString(i);
         }
