@@ -104,7 +104,7 @@ public class WinBollActivityManager {
             am.moveTaskToFront(activity.getTaskId(), ActivityManager.MOVE_TASK_NO_USER_ACTION);
         }
     }
-    
+
 
     /**
      * 结束所有 Activity
@@ -116,7 +116,15 @@ public class WinBollActivityManager {
                 Map.Entry<String, WinBollActivity> entry = iterator.next();
                 WinBollActivity activity = entry.getValue();
                 if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-                    activity.finish();
+                    if (WinBollApplication.getWinBollUI_TYPE() == WinBollApplication.WinBollUI_TYPE.Service) {
+                        // 结束窗口和最近任务栏, 建议前台服务类应用使用，可以方便用户再次调用 UI 操作。
+                        activity.finishAndRemoveTask();
+                    } else if (WinBollApplication.getWinBollUI_TYPE() == WinBollApplication.WinBollUI_TYPE.Aplication) {
+                        // 结束窗口保留最近任务栏，建议前台服务类应用使用，可以保持应用的系统自觉性。
+                        activity.finish();
+                    } else {
+                        ToastUtils.show("WinBollApplication.WinBollUI_TYPE error.");
+                    }
                 }
             }
         } catch (Exception e) {

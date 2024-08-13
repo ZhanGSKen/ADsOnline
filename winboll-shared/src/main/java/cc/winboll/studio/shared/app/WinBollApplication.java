@@ -10,8 +10,12 @@ public class WinBollApplication extends Application {
 
     public static final String TAG = "WinBollApplication";
 
+    public static enum WinBollUI_TYPE { Aplication, Service };
+
     // 应用调试标志
     volatile static boolean _mIsDebug = true;
+    // 应用调试标志
+    volatile static WinBollUI_TYPE _mWinBollUI_TYPE = WinBollUI_TYPE.Service;
 
     //
     // 读取调试标志
@@ -25,6 +29,20 @@ public class WinBollApplication extends Application {
     //
     public static boolean isDebug() {
         return _mIsDebug;
+    }
+    
+    //
+    // 设置 WinBoll 应用 UI 类型
+    //
+    public static void setWinBollUI_TYPE(WinBollUI_TYPE mWinBollUI_TYPE) {
+        _mWinBollUI_TYPE = mWinBollUI_TYPE;
+    }
+
+    //
+    // 获取 WinBoll 应用 UI 类型
+    //
+    public static WinBollUI_TYPE getWinBollUI_TYPE() {
+        return _mWinBollUI_TYPE;
     }
 
     @Override
@@ -40,5 +58,9 @@ public class WinBollApplication extends Application {
         ToastUtils.setView(R.layout.view_toast);
         //ToastUtils.setStyle(new WhiteToastStyle());
         ToastUtils.setGravity(Gravity.BOTTOM, 0, 200);
+        
+        // 设置默认 WinBoll 应用 UI 类型
+        setWinBollUI_TYPE(WinBollUI_TYPE.Service);
+        //ToastUtils.show("WinBollUI_TYPE " + getWinBollUI_TYPE());
     }
 }

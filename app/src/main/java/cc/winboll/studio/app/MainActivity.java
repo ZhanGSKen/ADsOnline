@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.appcompat.widget.Toolbar;
 import cc.winboll.studio.app.activities.AboutActivity;
 import cc.winboll.studio.shared.app.WinBollActivity;
+import cc.winboll.studio.shared.app.WinBollApplication;
 import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
 
@@ -29,6 +30,9 @@ final public class MainActivity extends WinBollActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // 设置 WinBoll 应用 UI 类型
+        WinBollApplication.setWinBollUI_TYPE(WinBollApplication.WinBollUI_TYPE.Aplication);
+        ToastUtils.show("WinBollUI_TYPE " + WinBollApplication.getWinBollUI_TYPE());
     }
     
     @Override

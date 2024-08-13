@@ -5,7 +5,6 @@ package cc.winboll.studio.shared.app;
  * @Date 2024/08/12 14:32:08
  * @Describe WinBoll 活动窗口基础类
  */
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -46,6 +45,7 @@ abstract public class WinBollActivity extends AppCompatActivity {
         //ToastUtils.show("getTag() " + getTag());
         WinBollActivityManager.getInstance(this).add(this);
         //WinBollActivityManager.getInstance().printAvtivityListInfo();
+        //ToastUtils.show("WinBollUI_TYPE " + WinBollApplication.getWinBollUI_TYPE());
     }
 
     @Override
@@ -76,6 +76,7 @@ abstract public class WinBollActivity extends AppCompatActivity {
             }
         } else if (item.getItemId() == R.id.item_exit) {
             WinBollActivityManager.getInstance(this).finishAll();
+            
         }
         // else if (item.getItemId() == android.R.id.home) {
         // 回到主窗口速度缓慢，方法备用。现在用 WinBollActivityManager resumeActivity 和 finish 方法管理。
