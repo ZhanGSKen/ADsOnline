@@ -10,7 +10,10 @@ public class WinBollApplication extends Application {
 
     public static final String TAG = "WinBollApplication";
 
-    public static enum WinBollUI_TYPE { Aplication, Service };
+    public static enum WinBollUI_TYPE {
+        Aplication, // 退出应用后，保持最近任务栏任务记录主窗口
+        Service // 退出应用后，清理所有最近任务栏任务记录窗口
+    };
 
     // 应用调试标志
     volatile static boolean _mIsDebug = true;
