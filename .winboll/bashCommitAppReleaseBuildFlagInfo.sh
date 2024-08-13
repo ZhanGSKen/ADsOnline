@@ -13,4 +13,4 @@ echo -e "Work dir : \n"`pwd`
 
 git add .
 git commit -m "APK Release ${2}"
-git push origin && git push origin --tags && git push archives && git push archives --tags
+git push origin && git push origin --tags

@@ -44,4 +44,4 @@ echo "< .winboll/winbollBuildProps.properties publishVersion : ${PUBLISH_VERSION
 
 git add .
 git commit -m "Library Release ${PUBLISH_VERSION}"
-git push origin && git push origin --tags && git push archives && git push archives --tags
+git push origin && git push origin --tags
