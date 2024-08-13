@@ -55,7 +55,7 @@ public class AboutView extends LinearLayout {
         mszAppName = typedArray.getString(R.styleable.AboutView_appname);
         mszAppProjectName = typedArray.getString(R.styleable.AboutView_appprojectname);
         mszAppDescription = typedArray.getString(R.styleable.AboutView_appdescription);
-        mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_appicon, R.drawable.ic_launcher);
+        mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_appicon, R.drawable.ic_winboll);
         // 返回一个绑定资源结束的信号给资源
         typedArray.recycle();
 
@@ -98,11 +98,11 @@ public class AboutView extends LinearLayout {
     protected View createAboutPage() {
         // 定义 GitWeb 按钮
         //
-        Element elementGitWeb = new Element(mContext.getString(R.string.gitweb_source), R.drawable.ic_launcher);
+        Element elementGitWeb = new Element(mContext.getString(R.string.gitweb_source), R.drawable.ic_winboll);
         elementGitWeb.setOnClickListener(mGitWebOnClickListener);
         // 定义检查更新按钮
         //
-        Element elementAppUpdate = new Element(mContext.getString(R.string.app_update), R.drawable.ic_launcher);
+        Element elementAppUpdate = new Element(mContext.getString(R.string.app_update), R.drawable.ic_winboll);
         elementAppUpdate.setOnClickListener(mAppUpdateOnClickListener);
 
         String szAppInfo = "";
