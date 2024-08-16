@@ -64,7 +64,7 @@ public class AboutView extends LinearLayout {
         } catch (PackageManager.NameNotFoundException e) {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
-        mszCurrentAppPackageName = mszAppProjectName + "_" + mszAppVersionName + ".apk";
+        mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
         mszGitea = "https://git.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
 
