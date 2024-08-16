@@ -65,8 +65,8 @@ public class AboutView extends LinearLayout {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
         mszCurrentAppPackageName = mszAppProjectName + "_" + mszAppVersionName + ".apk";
-        mszHomePage = "https://studio.winboll.cc/details.php?app=" + mszAppProjectName;
-        mszGitea = "https://git.winboll.cc/Studio/" + mszAppProjectName + ".git";
+        mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
+        mszGitea = "https://git.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
         // 初始化标题栏
@@ -150,7 +150,7 @@ public class AboutView extends LinearLayout {
             new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String szUrl = "https://studio.winboll.cc/details.php?app=" + mszAppProjectName;
+                        String szUrl = "https://winboll.cc/studio/details.php?app=" + mszAppName;
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
                             .url(szUrl)
@@ -175,7 +175,7 @@ public class AboutView extends LinearLayout {
                                         // 读取响应体作为字符串，注意这里可能需要解码
                                         String text = response.body().string();
                                         org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(text);
-                                        //LogUtils.i(TAG, doc.text());
+                                        LogUtils.d(TAG, doc.text());
 
                                         // 使用id选择器找到具有特定id的元素
                                         org.jsoup.nodes.Element elementWithId = doc.select("#LastRelease").first(); // 获取第一个匹配的元素
