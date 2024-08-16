@@ -22,7 +22,7 @@ public class AppVersionUtils {
     //       情况1：当前版本是Beta版
     //       true 新版本 == 当前版本
     //
-    public static boolean isHasNewVersion(String szCurrentName, String szNextName) {
+    public static boolean isHasNewVersion2(String szCurrentName, String szNextName) {
         //szCurrentName = "AES_6.2.0-beta0_3234.apk";
         //szNextName = "AES_6.1.12.apk";
         //szCurrentName = "AES_6.2.0-beta0_3234.apk";
@@ -75,6 +75,17 @@ public class AppVersionUtils {
             }
         }
         //LogUtils.d(TAG, "App version is the newest. ");
+        return false;
+    }
+    
+    public static boolean isHasNewStageReleaseVersion(String szCurrentName, String szNextName) {
+        //szCurrentName = "AES_6.2.12.apk";
+        //szNextName = "AES_6.3.12.apk";
+        if (checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName))) {
+            // 比 AES_6.2.0.apk 版本大，如 AES_6.2.1.apk。
+            //LogUtils.d(TAG, "App newer stage version is released. Release name : " + szNextName);
+            return true;
+        }
         return false;
     }
 

@@ -81,7 +81,11 @@ public class AboutView extends LinearLayout {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_APPUPDATE_CHECKED : {
-                        if (!AppVersionUtils.isHasNewVersion(mszCurrentAppPackageName, mszNewestAppPackageName)) {
+                        if(mszCurrentAppPackageName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
+                            ToastUtils.show("APP is the beta Version. Version check ignore.");
+                            return;
+                        }
+                        if (!AppVersionUtils.isHasNewStageReleaseVersion(mszCurrentAppPackageName, mszNewestAppPackageName)) {
                             ToastUtils.delayedShow("Current app is the neweest.", 5000);
                         } else {
                             String szMsg = "Current app is :\n[ " + mszCurrentAppPackageName
