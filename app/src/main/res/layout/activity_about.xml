@@ -15,7 +15,7 @@
         app:appname="WinBoll"
         app:appprojectname="WinBoll-APP"
         app:appdescription="WinBoll.CC 网站客户端。"
-        app:appicon="@drawable/ic_launcher"
+        app:appicon="@drawable/ic_winboll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/activityaboutAboutView1"/>
