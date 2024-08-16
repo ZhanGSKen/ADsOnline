@@ -59,10 +59,10 @@
 ☁ WinBoll 用户组 Group ID 为： winboll。
 ☁ WinBoll 主机 WinBoll 1Panel Gitea 建立 WinBoll 工作组。
 ☁ WinBoll 主机 WinBoll 1Panel Gitea 用户项目 APK 编译输出目录为 /sdcard/<用户名>/WinBoll/app/
-☁ WinBoll 项目配置文件示例为 "<WinBoll 项目根目录>.winboll/winboll.properties-demo"(WinBoll 项目已设置)
-☁ WinBoll 项目配置文件为 "<WinBoll 项目根目录>/winboll.properties"
+☁ WinBoll 项目配置文件示例为 "<WinBoll 项目根目录>/.winboll/winboll.properties-demo"(WinBoll 项目已设置)
+☁ WinBoll 项目配置文件为 "<WinBoll 项目根目录>/.winboll/winboll.properties"
 ☁ WinBoll 项目配置文件设定为源码提交时忽略。(WinBoll 项目已设置)
-☁ Gradle 项目配置文件示例为 "<WinBoll 项目根目录>.winboll/local.properties-demo"(WinBoll 项目已设置)
+☁ Gradle 项目配置文件示例为 "<WinBoll 项目根目录>/.winboll/local.properties-demo"(WinBoll 项目已设置)
 ☁ Gradle 项目配置文件为 "<WinBoll 项目根目录>/local.properties"(WinBoll 项目已设置)
 ☁ Gradle 项目配置文件设定为源码提交时忽略。(WinBoll 项目已设置)
 
