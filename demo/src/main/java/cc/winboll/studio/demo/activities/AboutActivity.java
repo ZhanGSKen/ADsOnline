@@ -57,7 +57,7 @@ final public class AboutActivity extends WinBollActivity {
         if (item.getItemId() == R.id.item_help) {
             ToastUtils.show("R.id.item_help");
         } else if (item.getItemId() == android.R.id.home) {
-            WinBollActivityManager.getInstance(this).finish(this);
+            WinBollActivityManager.getInstance(getApplicationContext()).finish(this);
         }
         return super.onOptionsItemSelected(item);
     }
