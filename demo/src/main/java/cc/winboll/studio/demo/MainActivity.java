@@ -61,7 +61,7 @@ final public class MainActivity extends WinBollActivity {
                 WinBollActivity clazzActivity = AboutActivity.class.newInstance();
                 String tag = clazzActivity.getTag();
                 LogUtils.d(TAG, "String tag = clazzActivity.getTag(); tag " + tag);
-                Intent intent = new Intent(this, AboutActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
                 startWinBollActivity(intent, tag);
             } catch (IllegalAccessException e) {} catch (InstantiationException e) {}
         }
