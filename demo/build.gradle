@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-	api 'cc.winboll.studio:winboll-shared:1.0.19'
+	api 'cc.winboll.studio:winboll-shared:1.0.20'
     api 'io.github.medyo:android-about-page:2.0.0'
     api 'com.github.getActivity:ToastUtils:10.5'
     api 'com.jcraft:jsch:0.1.55'
