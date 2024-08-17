@@ -103,4 +103,16 @@
 ☁ WinBoll 将会提供 WinBoll-APP 及其衍生应用的 Gitea 仓库管理服务。
 ☁ WinBoll 将会提供 winboll.cc 域名 WinBoll 项目组注册登录功能。
 
+## 本项目要实际运用需要注意以下几个步骤：
+# 在项目根目录下：
+1. 应用类型模块编译环境设置(可选)，local.properties-demo 要复制为 local.properties，
+并按需要设置 Android SDK 目录。
+2. 类库类型模块编译环境设置(可选)，winboll.properties-demo 要复制为 winboll.properties，
+并按需要设置WinBoll Maven 库登录用户信息。
+3. 类库类型模块编译环境设置(必须)，settings.gradle-demo 要复制为 settings.gradle，
+并取消相应项目的注释。
 
+## 类库模块编译命令
+bash .winboll/bashPublishLIBAddTag.sh <类库模块项目文件夹名称>
+## 应用模块编译命令
+bash .winboll/bashPublishAPKAddTag.sh <应用模块项目文件夹名称>
