@@ -68,7 +68,7 @@ android {
             println "Project root directory name : " + project.rootDir.name
             def outputPath="${project.projectDir.absolutePath}/build/outputs/apk/${variant.buildType.name}"
             //def outputFileName="${rootProject.name}_${versionName}.apk"
-            def outputFileName=project.rootDir.name + "$_${versionName}.apk"
+            def outputFileName=project.rootDir.name + "_${versionName}.apk"
             
             // 创建 WinBoll Studio 发布接口文件夹
             File fWinBollStudioDir = file("/sdcard/WinBollStudio/APKs");
