@@ -104,6 +104,7 @@ android {
                                     }
                                     // 检查编译标志位配置
                                     assert (winbollBuildProps['buildCount'] != null)
+                                    assert (winbollBuildProps['libraryProject'] != null)
                                     //构建计数增加
                                     int buildCount = Integer.parseInt(winbollBuildProps['buildCount']) + 1;
                                     // 设置编译计数
@@ -113,6 +114,18 @@ android {
                                     FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
                                     winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
+                                    
+                                    if(winbollBuildProps['libraryProject'] != "") {
+                                        // 如果应用 build.properties 文件设置了类库模块项目文件名
+                                        // 就拷贝一份新的编译标志配置到类库项目文件夹
+                                        File libraryProjectBuildPropsFile = new File("$RootProjectDir/" + winbollBuildProps['libraryProject'] + "/build.properties")
+                                        assert(winbollBuildPropsFile.exists())
+                                        assert(libraryProjectBuildPropsFile.exists())
+                                        java.nio.file.Path sourceFilePath = winbollBuildPropsFile.toPath();
+                                        java.nio.file.Path targetFilePath = libraryProjectBuildPropsFile.toPath();
+                                        // 使用copyTo()方法复制文件，如果目标文件存在会被覆盖，可选参数可以选择不覆盖
+	                                    java.nio.file.Files.copy(sourceFilePath, targetFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                                    }
                                 }
                             }
                             
@@ -167,6 +180,7 @@ android {
                                     assert (winbollBuildProps['buildCount'] != null)
                                     assert (winbollBuildProps['baseVersion'] != null)
                                     assert (winbollBuildProps['baseBetaVersion'] != null)
+                                    assert (winbollBuildProps['libraryProject'] != null)
                                     
                                     // 设置类库的默认版本名
                                     winbollBuildProps.setProperty("publishVersion", "${versionName}");
@@ -182,6 +196,18 @@ android {
                                     FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
                                     winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
+                                    
+                                    if(winbollBuildProps['libraryProject'] != "") {
+                                        // 如果应用 build.properties 文件设置了类库模块项目文件名
+                                        // 就拷贝一份新的编译标志配置到类库项目文件夹
+                                        File libraryProjectBuildPropsFile = new File("$RootProjectDir/" + winbollBuildProps['libraryProject'] + "/build.properties")
+                                        assert(winbollBuildPropsFile.exists())
+                                        assert(libraryProjectBuildPropsFile.exists())
+                                        java.nio.file.Path sourceFilePath = winbollBuildPropsFile.toPath();
+                                        java.nio.file.Path targetFilePath = libraryProjectBuildPropsFile.toPath();
+                                        // 使用copyTo()方法复制文件，如果目标文件存在会被覆盖，可选参数可以选择不覆盖
+                                        java.nio.file.Files.copy(sourceFilePath, targetFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                                    }
                                     
                                     // 提交新的编译标志配置
                                     def resultCommitBuildFlag = exec {

@@ -31,16 +31,19 @@ allprojects {
         RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
         bashCheckGitCommitStatusFilePath = ".winboll/bashCheckGitCommitStatus.sh"
         bashCommitAppReleaseBuildFlagInfoFilePath = ".winboll/bashCommitAppReleaseBuildFlagInfo.sh"
-        winbollBuildPropsFilePath = ".winboll/winbollBuildProps.properties"
-        winbollFilePath = ".winboll/winboll.properties"
+        
+        winbollFilePath = "winboll.properties"
         keyPropsFilePath = "keystore/appkey.keystore"
         // 定义 lint 输出文件
         lintXmlReportFilePath = "build/reports/lint-results.xml"
         lintHTMLReportFilePath = "build/reports/lint-results.html"
         
-        // 检查配置文件
-        winbollBuildPropsDesc="Created by .winboll/winboll_app_build.gradle and app/build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>"
-        winbollBuildPropsFile = file("${RootProjectDir}/${winbollBuildPropsFilePath}")
+        // 检查编译配置文件
+        subProjectPath = "$RootProjectDir/$project.name"
+        println "Sub project path: $subProjectPath"
+        winbollBuildPropsDesc="Created by .winboll/winboll_app_build.gradle"
+        winbollBuildPropsFile = file("$subProjectPath/build.properties")
+        winbollBuildPropsFilePath = winbollBuildPropsFile.getAbsolutePath();
         assert(winbollBuildPropsFile.exists())
         winbollBuildProps = new Properties()
         // 读取编译标志位配置文件
@@ -49,8 +52,7 @@ allprojects {
         assert (winbollBuildProps['stageCount'] != null)
         assert (winbollBuildProps['baseVersion'] != null)
         assert (winbollBuildProps['publishVersion'] != null)
-        assert (winbollBuildProps['buildCount'] != null)
-	
+	    assert (winbollBuildProps['buildCount'] != null)
     }
     
     afterEvaluate {
