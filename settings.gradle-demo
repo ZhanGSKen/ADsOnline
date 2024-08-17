@@ -1,2 +1,8 @@
+// WinBoll-Demo Settings
 include ':demo'
-rootProject.name = "DemoAppName"
+rootProject.name = "WinBoll-Demo"
+
+// WinBoll-APP Settings
+include ':app'
+include ':winboll-shared'
+rootProject.name = "WinBoll"
