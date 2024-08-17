@@ -121,9 +121,9 @@ if [[ $? -eq 0 ]]; then
     # 发布应用
 	echo "Publishing WinBoll APK ..."
 	# 脚本调试时使用
-	bash gradlew :$1:assembleBetaDebug
+	bash gradlew assembleBetaDebug
 	# 正式发布
-    #bash gradlew :$1:assembleStageRelease
+    #bash gradlew assembleStageRelease
     echo "Publishing WinBoll APK OK."
     
     # 添加 WinBoll 标签
