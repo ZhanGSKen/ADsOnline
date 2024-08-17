@@ -64,8 +64,11 @@ android {
 	    //
         if((variant.flavorName == "beta" && variant.buildType.name == "debug")
         || (variant.flavorName == "stage" && variant.buildType.name == "release")) {
+            println "Project root directory: " + project.rootDir.toString()
+            println "Project root directory name : " + project.rootDir.name
             def outputPath="${project.projectDir.absolutePath}/build/outputs/apk/${variant.buildType.name}"
-            def outputFileName="${rootProject.name}_${versionName}.apk"
+            //def outputFileName="${rootProject.name}_${versionName}.apk"
+            def outputFileName=project.rootDir.name + "$_${versionName}.apk"
             
             // 创建 WinBoll Studio 发布接口文件夹
             File fWinBollStudioDir = file("/sdcard/WinBollStudio/APKs");
@@ -87,7 +90,8 @@ android {
                             // 如果正在调试，就拷贝到 WinBoll 备份管理文件夹
                             // 
                             if(variant.flavorName == "beta"&&variant.buildType.name == "debug"){
-                                File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
+                                //File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
+                                File outBuildBckDir = new File(fWinBollStudioDir, "/" + project.rootDir.name + "/${variant.buildType.name}")
                                 // 创建目标路径目录
                                 if(!outBuildBckDir.exists()) {
                                     outBuildBckDir.mkdirs();
@@ -138,10 +142,12 @@ android {
                                 String szVersionName = "${versionName}"
                                 String[] szlistTemp = szVersionName.split("-")
                                 String szShortVersionName = szlistTemp[0]
-                                String szCommonTagAPKName = "${rootProject.name}_" + szShortVersionName + ".apk"
+                                //String szCommonTagAPKName = "${rootProject.name}_" + szShortVersionName + ".apk"
+                                String szCommonTagAPKName = project.rootDir.name + "_" + szShortVersionName + ".apk"
                                 println "CommonTagAPKName is : " + szCommonTagAPKName
                                 
-                                File outTagDir = new File(fWinBollStudioDir, "/${rootProject.name}/tag/")
+                                //File outTagDir = new File(fWinBollStudioDir, "/${rootProject.name}/tag/")
+                                File outTagDir = new File(fWinBollStudioDir, "/" + project.rootDir.name + "/tag/")
                                 // 创建目标路径目录
                                 if(!outTagDir.exists()) {
                                     outTagDir.mkdirs();
