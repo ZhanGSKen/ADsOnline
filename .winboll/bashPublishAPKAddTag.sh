@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+# 检查是否指定了将要发布的类库名称
+# 使用 `-z` 命令检查变量是否为空
+if [ -z "$1" ]; then
+    echo "APP name error: $0"
+    exit 2
+fi
+
 ## 定义相关函数
 ## 检查 Git 源码是否完全提交了，完全提交就返回0
 function checkGitSources {
@@ -35,8 +42,8 @@ function addWinBollTag {
 	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 publishVersion。
     # 如果文件中有 publishVersion 这一项，
 	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
-	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/winbollBuildProps.properties | awk -F '=' '{print $2}')
-	echo "< .winboll/winbollBuildProps.properties publishVersion : ${PUBLISH_VERSION} >"
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" $1/build.properties | awk -F '=' '{print $2}')
+	echo "< $1/build.properties publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 WinBoll 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1"
@@ -49,7 +56,7 @@ function addWinBollTag {
         return 1 # WinBoll标签重复
     fi
     # 添加WinBoll标签
-	git tag -a ${tag} -F .winboll/winboll_appupdate_description.txt
+	git tag -a ${tag} -F $1/app_update_description.txt
     return 0
 }
 
@@ -57,8 +64,8 @@ function addWorkflowsTag {
 	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 baseBetaVersion。
     # 如果文件中有 baseBetaVersion 这一项，
 	# 使用grep找到包含"baseBetaVersion="的那一行，然后用awk提取其后的值
-	BASE_BETA_VERSION=$(grep -o "baseBetaVersion=.*" .winboll/winbollBuildProps.properties | awk -F '=' '{print $2}')
-	echo "< .winboll/winbollBuildProps.properties baseBetaVersion : ${BASE_BETA_VERSION} >"
+	BASE_BETA_VERSION=$(grep -o "baseBetaVersion=.*" $1/build.properties | awk -F '=' '{print $2}')
+	echo "< $1/build.properties baseBetaVersion : ${BASE_BETA_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-beta"
@@ -71,18 +78,18 @@ function addWorkflowsTag {
         return 1 # 工作流标签重复
     fi
     # 添加工作流标签
-	git tag -a ${tag} -F .winboll/winboll_appupdate_description.txt
+	git tag -a ${tag} -F $1/app_update_description.txt
     return 0
 }
 
 ## 开始执行脚本
 echo -e "Current dir : \n"`pwd`
 # 检查当前目录是否是项目根目录
-if [[ -e .winboll/winbollBuildProps.properties ]]; then
-    echo "The .winboll/winbollBuildProps.properties file exists."
+if [[ -e $1/build.properties ]]; then
+    echo "The $1/build.properties file exists."
     echo -e "Work dir correctly."
 else
-    echo "The .winboll/winbollBuildProps.properties file does not exist."
+    echo "The $1/build.properties file does not exist."
     echo "尝试进入根目录"
     # 进入项目根目录
     cd ..
@@ -90,11 +97,11 @@ fi
 ## 本脚本需要在项目根目录下执行
 echo -e "Current dir : \n"`pwd`
 # 检查当前目录是否是项目根目录
-if [[ -e .winboll/winbollBuildProps.properties ]]; then
-    echo "The .winboll/winbollBuildProps.properties file exists."
+if [[ -e $1/build.properties ]]; then
+    echo "The $1/build.properties file exists."
     echo -e "Work dir correctly."
 else
-    echo "The .winboll/winbollBuildProps.properties file does not exist."
+    echo "The $1/build.properties file does not exist."
     echo -e "Work dir error."
     exit 1
 fi
@@ -114,9 +121,9 @@ if [[ $? -eq 0 ]]; then
     # 发布应用
 	echo "Publishing WinBoll APK ..."
 	# 脚本调试时使用
-	#bash gradlew assembleBetaDebug
+	bash gradlew :$1:assembleBetaDebug
 	# 正式发布
-    bash gradlew assembleStageRelease
+    #bash gradlew :$1:assembleStageRelease
     echo "Publishing WinBoll APK OK."
     
     # 添加 WinBoll 标签
@@ -144,7 +151,7 @@ if [[ $? -eq 0 ]]; then
 	fi
 	
 	## 清理更新描述文件内容
-	echo "" > .winboll/winboll_appupdate_description.txt
+	echo "" > $1/app_update_description.txt
 	
 	# 设置新版本开发参数配置
 	# 提交配置
