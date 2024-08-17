@@ -15,6 +15,10 @@ import cc.winboll.studio.R;
 import cc.winboll.studio.shared.log.LogActivity;
 import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
+import android.view.View;
+import android.view.MenuInflater;
+import android.app.Application;
+import android.content.Context;
 
 abstract public class WinBollActivity extends AppCompatActivity {
 
@@ -46,6 +50,30 @@ abstract public class WinBollActivity extends AppCompatActivity {
         WinBollActivityManager.getInstance(this).add(this);
         //WinBollActivityManager.getInstance().printAvtivityListInfo();
         //ToastUtils.show("WinBollUI_TYPE " + WinBollApplication.getWinBollUI_TYPE());
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+    }
+
+    @Override
+    public <T extends View> T findViewById(int id) {
+        return super.findViewById(id);
+    }
+
+    @Override
+    public MenuInflater getMenuInflater() {
+        return super.getMenuInflater();
+    }
+    
+    public WinBollActivity getActivity() {
+        return this;
+    }
+
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
     }
 
     @Override
