@@ -121,31 +121,31 @@ if [[ $? -eq 0 ]]; then
     # 发布应用
 	echo "Publishing WinBoll APK ..."
 	# 脚本调试时使用
-	bash gradlew assembleBetaDebug
+	bash gradlew :$1:assembleBetaDebug
 	# 正式发布
-    #bash gradlew assembleStageRelease
+    #bash gradlew :$1:assembleStageRelease
     echo "Publishing WinBoll APK OK."
     
     # 添加 WinBoll 标签
-    result=$(addWinBollTag)
+    result=$(addWinBollTag $1)
     echo $result
 	if [[ $? -eq 0 ]]; then
 	    echo $result
     	# WinBoll 标签添加成功
 	else
-    	echo -e "${0}: addWinBollTag\n${result}\nAdd WinBoll tag cancel."
+    	echo -e "${0}: addWinBollTag $1\n${result}\nAdd WinBoll tag cancel."
         exit 1 # addWinBollTag 异常
 	fi
     
     # 添加 GitHub 工作流标签
 	if [[ $nAskAddWorkflowsTag -eq 1 ]]; then
 	    # 如果用户选择添加工作流标签
-    	result=$(addWorkflowsTag)
+    	result=$(addWorkflowsTag $1)
 		if [[ $? -eq 0 ]]; then
 		    echo $result
 		    # 工作流标签添加成功
 		else
-			echo -e "${0}: addWorkflowsTag\n${result}\nAdd workflows tag cancel."
+			echo -e "${0}: addWorkflowsTag $1\n${result}\nAdd workflows tag cancel."
 			exit 1 # addWorkflowsTag 异常
 		fi
 	fi
