@@ -42,7 +42,7 @@ allprojects {
         subProjectPath = "$RootProjectDir/$project.name"
         println "Sub project path: $subProjectPath"
         winbollBuildPropsDesc="Created by .winboll/winboll_app_build.gradle"
-        winbollBuildPropsFile = file("$subProjectPath/build.properties")
+        winbollBuildPropsFile = rootProject.file("$subProjectPath/build.properties")
         winbollBuildPropsFilePath = winbollBuildPropsFile.getAbsolutePath();
         assert(winbollBuildPropsFile.exists())
         winbollBuildProps = new Properties()
