@@ -12,9 +12,9 @@
 		android:id="@+id/activityaboutToolbar1"/>
 
     <cc.winboll.studio.shared.view.AboutView
-        app:appname="WinBoll"
-        app:appprojectname="WinBoll-APP"
-        app:appdescription="WinBoll.CC 网站客户端。"
+        app:appname="WinBoll-Demo"
+        app:appprojectname="WinBoll-Demo"
+        app:appdescription="WinBoll.CC APP 分支应用示例。"
         app:appicon="@drawable/ic_winboll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
