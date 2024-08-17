@@ -1,14 +1,12 @@
 ## WinBoll 主机编译事项提醒
 
 ## 类库类型源码发布
-# 类库发布使用以下面命令(方法1)
-git pull && bash .winboll/bashPublishLIBAddTag.sh
-# 类库发布使用以下面命令(方法2)
-git pull && bash .winboll/bashPublishAPKAddTag.sh && bash gradlew publishReleasePublicationToWinBollReleaseRepository && bash .winboll/bashCommitLibReleaseBuildFlagInfo.sh
+# 类库发布使用以下面命令
+git pull && bash .winboll/bashPublishLIBAddTag.sh <类库模块文件夹名称>
 
 ## 纯应用类型源码发布
 # 应用发布使用以下命令
-git pull && bash .winboll/bashPublishAPKAddTag.sh
+git pull && bash .winboll/bashPublishAPKAddTag.sh <应用模块文件夹名称>
 
 ## 编译时提问。Add Github Workflows Tag? (yes/no)
 回答yes: 将会添加一个 GitHub 工作流标签
