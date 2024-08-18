@@ -66,7 +66,7 @@ public class AboutView extends LinearLayout {
         }
         mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
-        mszGitea = "https://git.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
+        mszGitea = "https://gitea.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
         // 初始化标题栏
@@ -102,7 +102,7 @@ public class AboutView extends LinearLayout {
     protected View createAboutPage() {
         // 定义 GitWeb 按钮
         //
-        Element elementGitWeb = new Element(mContext.getString(R.string.gitweb_source), R.drawable.ic_winboll);
+        Element elementGitWeb = new Element(mContext.getString(R.string.gitea_home), R.drawable.ic_winboll);
         elementGitWeb.setOnClickListener(mGitWebOnClickListener);
         // 定义检查更新按钮
         //
