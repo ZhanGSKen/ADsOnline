@@ -79,7 +79,7 @@ abstract public class WinBollActivity extends AppCompatActivity {
     }
 
     @Override
-    public FragmentManager getSupportFragmentManager() {
+    public androidx.fragment.app.FragmentManager getSupportFragmentManager() {
         return super.getSupportFragmentManager();
     }
 
