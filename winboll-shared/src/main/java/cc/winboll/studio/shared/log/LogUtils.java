@@ -36,7 +36,7 @@ public class LogUtils {
     //
     public static void init(Context context) {
         // 初始化日志读写文件路径
-        _mfLogDir = new File(context.getExternalCacheDir(), TAG);
+        _mfLogDir = new File(context.getApplicationContext().getExternalCacheDir(), TAG);
         if (!_mfLogDir.exists()) {
             _mfLogDir.mkdirs();
         }
