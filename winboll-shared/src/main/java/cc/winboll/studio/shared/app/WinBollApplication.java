@@ -15,25 +15,9 @@ public class WinBollApplication extends Application {
         Service // 退出应用后，清理所有最近任务栏任务记录窗口
     };
 
-    // 应用调试标志
-    volatile static boolean _mIsDebug = true;
-    // 应用调试标志
+    // 应用类型标志
     volatile static WinBollUI_TYPE _mWinBollUI_TYPE = WinBollUI_TYPE.Service;
 
-    //
-    // 读取调试标志
-    //
-    public static void setIsDebug(boolean isDebug) {
-        _mIsDebug = isDebug;
-    }
-
-    //
-    // 设置调试标志
-    //
-    public static boolean isDebug() {
-        return _mIsDebug;
-    }
-    
     //
     // 设置 WinBoll 应用 UI 类型
     //

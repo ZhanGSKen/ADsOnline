@@ -165,13 +165,13 @@ public class AboutView extends LinearLayout {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
                                     // 处理网络请求失败
-                                    LogUtils.i(TAG, e.getMessage());
+                                    LogUtils.d(TAG, e.getMessage());
                                 }
 
                                 @Override
                                 public void onResponse(Call call, Response response) throws IOException {
                                     if (!response.isSuccessful()) {
-                                        LogUtils.i(TAG, "Unexpected code " + response);
+                                        LogUtils.d(TAG, "Unexpected code " + response);
                                         return;
                                     }
 

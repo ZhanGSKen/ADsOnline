@@ -54,9 +54,7 @@ public class LogUtils {
     // 调试日志写入函数
     //
     public static void d(String szTAG, String szMessage) {
-        if (WinBollApplication.isDebug()) {
-            saveLogDebug(szTAG, szMessage);
-        }
+        saveLogDebug(szTAG, szMessage);
     }
 
     //
@@ -64,17 +62,15 @@ public class LogUtils {
     // 包含线程调试堆栈信息
     //
     public static void d(String szTAG, String szMessage, StackTraceElement[] listStackTrace) {
-        if (WinBollApplication.isDebug()) {
-            StringBuilder sbMessage = new StringBuilder(szMessage);
-            sbMessage.append(" \nAt ");
-            sbMessage.append(listStackTrace[2].getMethodName());
-            sbMessage.append(" (");
-            sbMessage.append(listStackTrace[2].getFileName());
-            sbMessage.append(":");
-            sbMessage.append(listStackTrace[2].getLineNumber());
-            sbMessage.append(")");
-            saveLogDebug(szTAG, sbMessage.toString());
-        }
+        StringBuilder sbMessage = new StringBuilder(szMessage);
+        sbMessage.append(" \nAt ");
+        sbMessage.append(listStackTrace[2].getMethodName());
+        sbMessage.append(" (");
+        sbMessage.append(listStackTrace[2].getFileName());
+        sbMessage.append(":");
+        sbMessage.append(listStackTrace[2].getLineNumber());
+        sbMessage.append(")");
+        saveLogDebug(szTAG, sbMessage.toString());
     }
 
     //
@@ -82,42 +78,18 @@ public class LogUtils {
     // 包含异常信息和线程调试堆栈信息
     //
     public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
-        if (WinBollApplication.isDebug()) {
-            StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
-            sbMessage.append(" : ");
-            sbMessage.append(e.getMessage());
-            sbMessage.append(" \nAt ");
-            sbMessage.append(listStackTrace[2].getMethodName());
-            sbMessage.append(" (");
-            sbMessage.append(listStackTrace[2].getFileName());
-            sbMessage.append(":");
-            sbMessage.append(listStackTrace[2].getLineNumber());
-            sbMessage.append(")");
-            saveLogDebug(szTAG, sbMessage.toString());
-        }
-    }
 
-    //
-    // 应用信息日志写入函数
-    //
-    public static void i(String szTAG, String szMessage) {
-        saveLogInfo(szMessage);
-    }
-
-    //
-    // 日志文件保存函数
-    //
-    static void saveLogInfo(String szMessage) {
-        try {
-
-            BufferedWriter out = null;
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogFile, true), "UTF-8"));
-            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + ": " + szMessage + "\n");
-            out.close();
-
-        } catch (IOException e) {
-            LogUtils.d(TAG, "IOException : " + e.getMessage());
-        }
+        StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
+        sbMessage.append(" : ");
+        sbMessage.append(e.getMessage());
+        sbMessage.append(" \nAt ");
+        sbMessage.append(listStackTrace[2].getMethodName());
+        sbMessage.append(" (");
+        sbMessage.append(listStackTrace[2].getFileName());
+        sbMessage.append(":");
+        sbMessage.append(listStackTrace[2].getLineNumber());
+        sbMessage.append(")");
+        saveLogDebug(szTAG, sbMessage.toString());
     }
 
     //
