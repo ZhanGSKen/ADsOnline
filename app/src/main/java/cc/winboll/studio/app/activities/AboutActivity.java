@@ -47,7 +47,7 @@ final public class AboutActivity extends WinBollActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_about, menu);
+        getMenuInflater().inflate(R.menu.toolbar_winboll_app_about, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
