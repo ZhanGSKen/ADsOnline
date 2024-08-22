@@ -3,7 +3,7 @@
 # 检查是否指定了将要发布的类库名称
 # 使用 `-z` 命令检查变量是否为空
 if [ -z "$1" ]; then
-    echo "APP name error: $0"
+    echo "No APP name specified : $0"
     exit 2
 fi
 

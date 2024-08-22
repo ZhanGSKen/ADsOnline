@@ -8,8 +8,8 @@ def getDefaultVersion(){
     return winbollBuildProps['publishVersion']
 }
 
-def siteUrl = 'https://studio.winboll.cc/${rootProject.name}' // 项目主页
-def gitUrl = 'https://git.winboll.cc/Studio/${rootProject.name}' // 项目的git地址
+def siteUrl = 'https://winboll.cc/?page=studio/details.php&app=${rootProject.name}' // 项目主页
+def gitUrl = 'https://gitea.winboll.cc/WinBoll/${rootProject.name}' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio' // 类库所有者groupId
 def DefaultVersion = getDefaultVersion() // 版本号
 def DeveloperId='zhangsken' // 开发者账号
@@ -31,7 +31,7 @@ afterEvaluate {
                 maven{
                     //仓库的名字和地址
                     name = "WinBollRelease"
-                    url="https://winboll.cc/nexus/repository/maven-releases/"
+                    url="https://nexus.winboll.cc/repository/maven-releases/"
                     // 仓库用户名密码
                     credentials {
                         username = NexusUserName
@@ -42,7 +42,7 @@ afterEvaluate {
                 maven{
                     //仓库的名字和地址
                     name = "WinBollSnapshot"
-                    url="https://winboll.cc/nexus/repository/maven-snapshots/"
+                    url="https://nexus.winboll.cc/repository/maven-snapshots/"
                     // 仓库用户名密码
                     credentials {
                         username = NexusUserName
