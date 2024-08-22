@@ -63,6 +63,7 @@ android {
         // 2. 配置 Beta Debug 版应用包输出
 	    //
         if((variant.flavorName == "beta" && variant.buildType.name == "debug")
+        || (variant.flavorName == "stage" && variant.buildType.name == "debug")
         || (variant.flavorName == "stage" && variant.buildType.name == "release")) {
             println "Project root directory: " + project.rootDir.toString()
             println "Project root directory name : " + project.rootDir.name
@@ -135,7 +136,8 @@ android {
                             
                             // 如果正在发布，就拷贝到 WinBoll 标签管理文件夹
                             //
-                            if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
+                            if((variant.flavorName == "stage"&&variant.buildType.name == "debug")
+                                || (variant.flavorName == "stage"&&variant.buildType.name == "release")){
                                 // 发布 APK 文件
                                 //
                                 // 截取版本号的版本字段为短版本名
@@ -217,7 +219,7 @@ android {
                                     
                                     // 提交新的编译标志配置
                                     def resultCommitBuildFlag = exec {
-                                        commandLine 'bash', '--', "${RootProjectDir}/${bashCommitAppReleaseBuildFlagInfoFilePath}", "${RootProjectDir}", "${versionName}"
+                                        commandLine 'bash', '--', "${RootProjectDir}/${bashCommitAppPublishBuildFlagInfoFilePath}", "${RootProjectDir}", "${versionName}", variant.buildType.name
                                     }
                                     // 检查bash命令的返回值（假设非零表示失败）
                                     assert(resultCommitBuildFlag.getExitValue() == 0)
