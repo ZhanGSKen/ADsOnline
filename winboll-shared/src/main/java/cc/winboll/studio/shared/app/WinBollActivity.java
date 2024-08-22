@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.MenuInflater;
 import android.app.Application;
 import android.content.Context;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.ActionBar;
 
 abstract public class WinBollActivity extends AppCompatActivity {
 
@@ -76,6 +78,21 @@ abstract public class WinBollActivity extends AppCompatActivity {
         return super.getApplicationContext();
     }
 
+    @Override
+    public FragmentManager getSupportFragmentManager() {
+        return super.getSupportFragmentManager();
+    }
+
+    @Override
+    public ActionBar getSupportActionBar() {
+        return super.getSupportActionBar();
+    }
+
+    @Override
+    public void setSupportActionBar(Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isAddWinBollToolBar()) {
