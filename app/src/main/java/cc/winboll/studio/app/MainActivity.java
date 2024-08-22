@@ -29,6 +29,7 @@ final public class MainActivity extends WinBollActivity {
         // 设置 WinBoll 应用 UI 类型
         WinBollApplication.setWinBollUI_TYPE(WinBollApplication.WinBollUI_TYPE.Aplication);
         //ToastUtils.show("WinBollUI_TYPE " + WinBollApplication.getWinBollUI_TYPE());
+        LogUtils.d(TAG, "BuildConfig.DEBUG : " + Boolean.toString(BuildConfig.DEBUG));
     }
 
     @Override
