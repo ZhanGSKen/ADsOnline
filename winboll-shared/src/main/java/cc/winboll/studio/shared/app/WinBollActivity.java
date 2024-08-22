@@ -96,7 +96,7 @@ abstract public class WinBollActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isAddWinBollToolBar()) {
-            getMenuInflater().inflate(R.menu.toolbar_library, menu);
+            getMenuInflater().inflate(R.menu.toolbar_winboll_shared_main, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
