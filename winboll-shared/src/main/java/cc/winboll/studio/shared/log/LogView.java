@@ -13,10 +13,14 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 public class LogView extends RelativeLayout {
 
@@ -31,6 +35,8 @@ public class LogView extends RelativeLayout {
     CheckBox mSelectableCheckBox;
     LogViewThread mLogViewThread;
     LogViewHandler mLogViewHandler;
+    Spinner mLogLevelSpinner;
+    ArrayAdapter<CharSequence> mLogLevelSpinnerAdapter;
 
     public LogView(Context context) {
         super(context);
@@ -87,6 +93,8 @@ public class LogView extends RelativeLayout {
         //
         mScrollView = findViewById(cc.winboll.studio.R.id.viewlogScrollViewLog);
         mTextView = findViewById(cc.winboll.studio.R.id.viewlogTextViewLog);
+        // 获取Log Level spinner实例
+        mLogLevelSpinner = findViewById(cc.winboll.studio.R.id.viewlogSpinner1);
 
         (findViewById(cc.winboll.studio.R.id.viewlogButtonClean)).setOnClickListener(new View.OnClickListener(){
 
@@ -117,6 +125,43 @@ public class LogView extends RelativeLayout {
                     }
                 }
             });
+
+        // 设置日志级别列表
+        ArrayList<String> adapterItems = new ArrayList<>();
+        for (LogUtils.LOG_LEVEL e : LogUtils.LOG_LEVEL.values()) {
+            adapterItems.add(e.name());
+        }
+        // 假设你有一个字符串数组作为选项列表
+        //String[] options = {"Option 1", "Option 2", "Option 3"};
+        // 创建一个ArrayAdapter来绑定数据到spinner
+        mLogLevelSpinnerAdapter = ArrayAdapter.createFromResource(
+            context, cc.winboll.studio.R.array.enum_loglevel_array, android.R.layout.simple_spinner_item);
+        mLogLevelSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // 设置适配器并将它应用到spinner上
+        mLogLevelSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // 设置下拉视图样式
+        mLogLevelSpinner.setAdapter(mLogLevelSpinnerAdapter);
+        // 为Spinner添加监听器
+        mLogLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    //String selectedOption = mLogLevelSpinnerAdapter.getItem(position);
+                    // 处理选中的选项...
+                    LogUtils.setLogLevel(LogUtils.LOG_LEVEL.values()[position]);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // 如果没有选择，则执行此操作...
+                }
+            });
+        // 获取默认值的索引
+        int defaultValueIndex = LogUtils.getLogLevel().ordinal();
+
+        if (defaultValueIndex != -1) {
+            // 如果找到了默认值，设置默认选项
+            mLogLevelSpinner.setSelection(defaultValueIndex);
+        }
+
         // 设置滚动时不聚焦日志
         setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     }

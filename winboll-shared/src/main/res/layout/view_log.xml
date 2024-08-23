@@ -1,74 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FF000000">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FF000000">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:id="@+id/viewlogRelativeLayoutToolbar">
+	<RelativeLayout
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:id="@+id/viewlogRelativeLayoutToolbar">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Clean Log"
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/viewlogButtonClean"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:text="Clean"
+			android:textSize="14dp"
+			android:layout_centerVertical="true"
+			android:id="@+id/viewlogButtonClean"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_toLeftOf="@+id/viewlogButtonCopy"
-            android:layout_centerVertical="true"
-            android:text="Selectable"
-            android:background="#FFFFFFFF"
-            android:paddingRight="10dp"
-            android:textSize="16dp"
-            android:id="@+id/viewlogCheckBoxSelectable"/>
+		<TextView
+			android:background="#FF000000"
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:text="LV:"
+			android:layout_toRightOf="@+id/viewlogButtonClean"
+			android:layout_centerVertical="true"
+			android:id="@+id/viewlogTextView1"
+			android:textColor="#FFFFFFFF"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Copy Log"
-            android:layout_alignParentRight="true"
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/viewlogButtonCopy"/>
+		<Spinner
+			android:background="#FFFFFFFF"
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:layout_toRightOf="@+id/viewlogTextView1"
+			android:layout_centerVertical="true"
+			android:id="@+id/viewlogSpinner1"/>
 
-    </RelativeLayout>
+		<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:layout_toLeftOf="@+id/viewlogButtonCopy"
+			android:layout_centerVertical="true"
+			android:text="Selectable"
+			android:background="#FFFFFFFF"
+			android:paddingRight="10dp"
+			android:textSize="16dp"
+			android:id="@+id/viewlogCheckBoxSelectable"/>
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/viewlogRelativeLayoutToolbar">
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:text="Copy"
+			android:layout_alignParentRight="true"
+			android:textSize="14dp"
+			android:layout_centerVertical="true"
+			android:id="@+id/viewlogButtonCopy"/>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FF000000"
-            android:id="@+id/viewlogScrollViewLog">
+	</RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Text"
-                android:textColor="#FF00FF00"
-                android:textIsSelectable="true"
-                android:id="@+id/viewlogTextViewLog"/>
+	<RelativeLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_alignParentBottom="true"
+		android:layout_below="@+id/viewlogRelativeLayoutToolbar">
 
-        </ScrollView>
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#FF000000"
+			android:id="@+id/viewlogScrollViewLog">
 
-    </RelativeLayout>
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:text="Text"
+				android:textColor="#FF00FF00"
+				android:textIsSelectable="true"
+				android:id="@+id/viewlogTextViewLog"/>
+
+		</ScrollView>
+
+	</RelativeLayout>
 
 </RelativeLayout>
 

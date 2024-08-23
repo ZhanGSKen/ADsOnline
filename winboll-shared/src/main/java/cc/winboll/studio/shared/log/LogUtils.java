@@ -8,7 +8,6 @@ package cc.winboll.studio.shared.log;
  */
 import android.content.Context;
 import cc.winboll.studio.shared.app.FileUtils;
-import cc.winboll.studio.shared.app.WinBollApplication;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,23 +23,56 @@ public class LogUtils {
 
     public static final String TAG = "LogUtils";
 
+    public static enum LOG_LEVEL { Off, Error, Warn, Info, Debug, Verbose }
+
     // 日志显示时间格式
     static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("[yyyyMMdd_HHmmSS]", Locale.getDefault());
     // 应用日志文件夹
     static File _mfLogDir;
     // 应用日志文件
-    static File _mfLogFile;;
+    static File _mfLogFile;
+    static File _mfLogUtilsBeanFile;
+    static LogUtilsBean _mLogUtilsBean;
 
     //
     // 初始化函数
     //
     public static void init(Context context) {
+        init(context, LOG_LEVEL.Off);
+    }
+
+    //
+    // 初始化函数
+    //
+    public static void init(Context context, LOG_LEVEL logLevel) {
         // 初始化日志读写文件路径
-        _mfLogDir = new File(context.getApplicationContext().getExternalCacheDir(), TAG);
+        _mfLogDir = new File(context.getExternalCacheDir(), TAG);
         if (!_mfLogDir.exists()) {
             _mfLogDir.mkdirs();
         }
         _mfLogFile = new File(_mfLogDir, "log.txt");
+        _mfLogUtilsBeanFile = new File(_mfLogDir, TAG + ".json");
+
+
+        _mLogUtilsBean = LogUtilsBean.loadBeanFromFile(_mfLogUtilsBeanFile.getPath(), LogUtilsBean.class);
+        if (_mLogUtilsBean == null) {
+            _mLogUtilsBean = new LogUtilsBean();
+            _mLogUtilsBean.saveBeanToFile(_mfLogUtilsBeanFile.getPath(), _mLogUtilsBean);
+        }
+    }
+
+    public static void setLogLevel(LOG_LEVEL logLevel) {
+        LogUtils._mLogUtilsBean.setLogLevel(logLevel);
+        _mLogUtilsBean.saveBeanToFile(_mfLogUtilsBeanFile.getPath(), _mLogUtilsBean);
+    }
+
+    public static LOG_LEVEL getLogLevel() {
+        return LogUtils._mLogUtilsBean.getLogLevel();
+    }
+
+    static boolean isInTheLevel(LOG_LEVEL logLevel) {
+        return (LogUtils._mLogUtilsBean.getLogLevel().ordinal() == logLevel.ordinal()
+            || LogUtils._mLogUtilsBean.getLogLevel().ordinal() > logLevel.ordinal());
     }
 
     //
@@ -53,8 +85,37 @@ public class LogUtils {
     //
     // 调试日志写入函数
     //
+    public static void e(String szTAG, String szMessage) {
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Error)) {
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Error, szMessage);
+        }
+    }
+
+    //
+    // 调试日志写入函数
+    //
+    public static void w(String szTAG, String szMessage) {
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Warn)) {
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Warn, szMessage);
+        }
+    }
+
+    //
+    // 调试日志写入函数
+    //
+    public static void i(String szTAG, String szMessage) {
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Info)) {
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Info, szMessage);
+        }
+    }
+
+    //
+    // 调试日志写入函数
+    //
     public static void d(String szTAG, String szMessage) {
-        saveLogDebug(szTAG, szMessage);
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Debug)) {
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Debug, szMessage);
+        }
     }
 
     //
@@ -62,15 +123,17 @@ public class LogUtils {
     // 包含线程调试堆栈信息
     //
     public static void d(String szTAG, String szMessage, StackTraceElement[] listStackTrace) {
-        StringBuilder sbMessage = new StringBuilder(szMessage);
-        sbMessage.append(" \nAt ");
-        sbMessage.append(listStackTrace[2].getMethodName());
-        sbMessage.append(" (");
-        sbMessage.append(listStackTrace[2].getFileName());
-        sbMessage.append(":");
-        sbMessage.append(listStackTrace[2].getLineNumber());
-        sbMessage.append(")");
-        saveLogDebug(szTAG, sbMessage.toString());
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Debug)) {
+            StringBuilder sbMessage = new StringBuilder(szMessage);
+            sbMessage.append(" \nAt ");
+            sbMessage.append(listStackTrace[2].getMethodName());
+            sbMessage.append(" (");
+            sbMessage.append(listStackTrace[2].getFileName());
+            sbMessage.append(":");
+            sbMessage.append(listStackTrace[2].getLineNumber());
+            sbMessage.append(")");
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Debug, sbMessage.toString());
+        }
     }
 
     //
@@ -78,28 +141,38 @@ public class LogUtils {
     // 包含异常信息和线程调试堆栈信息
     //
     public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Debug)) {
+            StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
+            sbMessage.append(" : ");
+            sbMessage.append(e.getMessage());
+            sbMessage.append(" \nAt ");
+            sbMessage.append(listStackTrace[2].getMethodName());
+            sbMessage.append(" (");
+            sbMessage.append(listStackTrace[2].getFileName());
+            sbMessage.append(":");
+            sbMessage.append(listStackTrace[2].getLineNumber());
+            sbMessage.append(")");
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Debug, sbMessage.toString());
+        }
+    }
 
-        StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
-        sbMessage.append(" : ");
-        sbMessage.append(e.getMessage());
-        sbMessage.append(" \nAt ");
-        sbMessage.append(listStackTrace[2].getMethodName());
-        sbMessage.append(" (");
-        sbMessage.append(listStackTrace[2].getFileName());
-        sbMessage.append(":");
-        sbMessage.append(listStackTrace[2].getLineNumber());
-        sbMessage.append(")");
-        saveLogDebug(szTAG, sbMessage.toString());
+    //
+    // 调试日志写入函数
+    //
+    public static void v(String szTAG, String szMessage) {
+        if (isInTheLevel(LogUtils.LOG_LEVEL.Verbose)) {
+            saveLog(szTAG, LogUtils.LOG_LEVEL.Verbose, szMessage);
+        }
     }
 
     //
     // 日志文件保存函数
     //
-    static void saveLogDebug(String szTAG, String szMessage) {
+    static void saveLog(String szTAG, LogUtils.LOG_LEVEL logLevel, String szMessage) {
         try {
             BufferedWriter out = null;
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogFile, true), "UTF-8"));
-            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
+            out.write("[" + logLevel + "]  " + mSimpleDateFormat.format(System.currentTimeMillis()) + "  [" + szTAG + "]\n" + szMessage + "\n");
             out.close();
         } catch (IOException e) {
             LogUtils.d(TAG, "IOException : " + e.getMessage());
@@ -135,7 +208,7 @@ public class LogUtils {
         if (_mfLogFile.exists()) {
             try {
                 FileUtils.writeStringToFile(_mfLogFile.getPath(), "");
-                LogUtils.d(TAG, "cleanLog");
+                //LogUtils.d(TAG, "cleanLog");
             } catch (IOException e) {
                 LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
             }
