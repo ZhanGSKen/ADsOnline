@@ -37,7 +37,7 @@ public class LogViewThread extends Thread {
 
     @Override
     public void run() {
-        String szLogDir = LogUtils.getLogDir().getPath();
+        String szLogDir = LogUtils.getLogCacheDir().getPath();
         mLogListener = new LogListener(szLogDir);
         mLogListener.startWatching();
         while (isExist() == false) {

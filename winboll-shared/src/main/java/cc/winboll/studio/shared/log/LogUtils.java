@@ -28,9 +28,10 @@ public class LogUtils {
     // 日志显示时间格式
     static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("[yyyyMMdd_HHmmSS]", Locale.getDefault());
     // 应用日志文件夹
-    static File _mfLogDir;
+    static File _mfLogCacheDir;
+    static File _mfLogDataDir;
     // 应用日志文件
-    static File _mfLogFile;
+    static File _mfLogCatchFile;
     static File _mfLogUtilsBeanFile;
     static LogUtilsBean _mLogUtilsBean;
 
@@ -45,13 +46,19 @@ public class LogUtils {
     // 初始化函数
     //
     public static void init(Context context, LOG_LEVEL logLevel) {
-        // 初始化日志读写文件路径
-        _mfLogDir = new File(context.getExternalCacheDir(), TAG);
-        if (!_mfLogDir.exists()) {
-            _mfLogDir.mkdirs();
+        // 初始化日志缓存文件路径
+        _mfLogCacheDir = new File(context.getApplicationContext().getExternalCacheDir(), TAG);
+        if (!_mfLogCacheDir.exists()) {
+            _mfLogCacheDir.mkdirs();
         }
-        _mfLogFile = new File(_mfLogDir, "log.txt");
-        _mfLogUtilsBeanFile = new File(_mfLogDir, TAG + ".json");
+        _mfLogCatchFile = new File(_mfLogCacheDir, "log.txt");
+        
+        // 初始化日志配置文件路径
+        _mfLogDataDir = context.getApplicationContext().getExternalFilesDir(TAG);
+        if (!_mfLogDataDir.exists()) {
+            _mfLogDataDir.mkdirs();
+        }
+        _mfLogUtilsBeanFile = new File(_mfLogDataDir, TAG + ".json");
 
 
         _mLogUtilsBean = LogUtilsBean.loadBeanFromFile(_mfLogUtilsBeanFile.getPath(), LogUtilsBean.class);
@@ -78,8 +85,8 @@ public class LogUtils {
     //
     // 获取应用日志文件夹
     //
-    public static File getLogDir() {
-        return _mfLogDir;
+    public static File getLogCacheDir() {
+        return _mfLogCacheDir;
     }
 
     //
@@ -171,7 +178,7 @@ public class LogUtils {
     static void saveLog(String szTAG, LogUtils.LOG_LEVEL logLevel, String szMessage) {
         try {
             BufferedWriter out = null;
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogFile, true), "UTF-8"));
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogCatchFile, true), "UTF-8"));
             out.write("[" + logLevel + "]  " + mSimpleDateFormat.format(System.currentTimeMillis()) + "  [" + szTAG + "]\n" + szMessage + "\n");
             out.close();
         } catch (IOException e) {
@@ -183,11 +190,11 @@ public class LogUtils {
     // 历史日志加载函数
     //
     public static String loadLog() {
-        if (_mfLogFile.exists()) {
+        if (_mfLogCatchFile.exists()) {
             StringBuffer sb = new StringBuffer();
             try {
                 BufferedReader in = null;
-                in = new BufferedReader(new InputStreamReader(new FileInputStream(_mfLogFile), "UTF-8"));
+                in = new BufferedReader(new InputStreamReader(new FileInputStream(_mfLogCatchFile), "UTF-8"));
                 String line = "";
                 while ((line = in.readLine()) != null) {
                     sb.append(line);
@@ -205,9 +212,9 @@ public class LogUtils {
     // 清理日志函数
     //
     public static void cleanLog() {
-        if (_mfLogFile.exists()) {
+        if (_mfLogCatchFile.exists()) {
             try {
-                FileUtils.writeStringToFile(_mfLogFile.getPath(), "");
+                FileUtils.writeStringToFile(_mfLogCatchFile.getPath(), "");
                 //LogUtils.d(TAG, "cleanLog");
             } catch (IOException e) {
                 LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
