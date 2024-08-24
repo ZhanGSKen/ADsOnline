@@ -165,13 +165,13 @@ public class AboutView extends LinearLayout {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
                                     // 处理网络请求失败
-                                    LogUtils.d(TAG, e.getMessage());
+                                    LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
                                 }
 
                                 @Override
                                 public void onResponse(Call call, Response response) throws IOException {
                                     if (!response.isSuccessful()) {
-                                        LogUtils.d(TAG, "Unexpected code " + response);
+                                        LogUtils.d(TAG, "Unexpected code " + response, Thread.currentThread().getStackTrace());
                                         return;
                                     }
 
@@ -179,7 +179,7 @@ public class AboutView extends LinearLayout {
                                         // 读取响应体作为字符串，注意这里可能需要解码
                                         String text = response.body().string();
                                         org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(text);
-                                        LogUtils.d(TAG, doc.text());
+                                        LogUtils.v(TAG, doc.text());
 
                                         // 使用id选择器找到具有特定id的元素
                                         org.jsoup.nodes.Element elementWithId = doc.select("#LastRelease").first(); // 获取第一个匹配的元素
@@ -202,7 +202,7 @@ public class AboutView extends LinearLayout {
     YesNoAlertDialog.OnDialogResultListener mIsDownlaodUpdateListener = new YesNoAlertDialog.OnDialogResultListener() {
         @Override
         public void onYes() {
-            String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
+            String szUrl = "https://dev.winboll.cc/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(szUrl));
             mContext.startActivity(browserIntent);
         }
