@@ -21,6 +21,19 @@ import android.app.Application;
 import android.content.Context;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.os.Handler;
+import androidx.fragment.app.Fragment;
+import android.app.Activity;
+import android.content.IntentSender;
+import androidx.appcompat.view.ActionMode.Callback;
+import androidx.appcompat.view.ActionMode;
+import android.content.ComponentName;
+import android.content.res.Resources.Theme;
+import android.content.res.Resources;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 
 abstract public class WinBollActivity extends AppCompatActivity {
 
@@ -90,6 +103,141 @@ abstract public class WinBollActivity extends AppCompatActivity {
     @Override
     public void setSupportActionBar(Toolbar toolbar) {
         super.setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void setActionBar(android.widget.Toolbar toolbar) {
+        super.setActionBar(toolbar);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
+    }
+
+    @Override
+    public void setTheme(Resources.Theme theme) {
+        super.setTheme(theme);
+    }
+
+    @Override
+    public void setTheme(int resid) {
+        super.setTheme(resid);
+    }
+
+    @Override
+    public void setTitleColor(int textColor) {
+        super.setTitleColor(textColor);
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        super.setContentView(view, params);
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+    }
+
+    @Override
+    public void recreate() {
+        super.recreate();
+    }
+
+    @Override
+    public boolean releaseInstance() {
+        return super.releaseInstance();
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter, int flags) {
+        return super.registerReceiver(receiver, filter, flags);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter, String broadcastPermission, Handler scheduler) {
+        return super.registerReceiver(receiver, filter, broadcastPermission, scheduler);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter, String broadcastPermission, Handler scheduler, int flags) {
+        return super.registerReceiver(receiver, filter, broadcastPermission, scheduler, flags);
+    }
+
+    @Override
+    public void startActivities(Intent[] intents) {
+        super.startActivities(intents);
+    }
+
+    @Override
+    public void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode) {
+        super.startActivityFromFragment(fragment, intent, requestCode);
+    }
+
+    @Override
+    public void startActivityFromFragment(android.app.Fragment fragment, Intent intent, int requestCode, Bundle options) {
+        super.startActivityFromFragment(fragment, intent, requestCode, options);
+    }
+
+    @Override
+    public void startActivityFromChild(Activity child, Intent intent, int requestCode, Bundle options) {
+        super.startActivityFromChild(child, intent, requestCode, options);
+    }
+
+    @Override
+    public void startActivities(Intent[] intents, Bundle options) {
+        super.startActivities(intents, options);
+    }
+
+    @Override
+    public boolean startActivityIfNeeded(Intent intent, int requestCode) {
+        return super.startActivityIfNeeded(intent, requestCode);
+    }
+
+    @Override
+    public boolean startActivityIfNeeded(Intent intent, int requestCode, Bundle options) {
+        return super.startActivityIfNeeded(intent, requestCode, options);
+    }
+
+    @Override
+    public void startActivityFromChild(Activity child, Intent intent, int requestCode) {
+        super.startActivityFromChild(child, intent, requestCode);
+    }
+
+    @Override
+    public ComponentName startService(Intent service) {
+        return super.startService(service);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        super.startActivityForResult(intent, requestCode, options);
+    }
+
+    @Override
+    public void startActivityFromFragment(android.app.Fragment fragment, Intent intent, int requestCode) {
+        super.startActivityFromFragment(fragment, intent, requestCode);
+    }
+
+    @Override
+    public void startActivityFromFragment(Fragment requestIndex, Intent fragment, int intent, Bundle requestCode) {
+        super.startActivityFromFragment(requestIndex, fragment, intent, requestCode);
+    }
+
+    @Override
+    public void startActivity(Intent intent, Bundle options) {
+        super.startActivity(intent, options);
     }
     
     @Override
