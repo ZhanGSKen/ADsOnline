@@ -13,7 +13,12 @@ buildscript {
 
 allprojects {
     repositories {
+        // Nexus Maven 库地址
+        // "WinBoll Release"
 		maven { url "https://nexus.winboll.cc/repository/maven-public/" }
+        // "WinBoll Snapshot"
+        maven { url "https://nexus.winboll.cc/repository/maven-snapshots/" }
+
         maven { url 'https://maven.aliyun.com/repository/public/' } 
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }

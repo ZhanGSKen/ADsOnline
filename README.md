@@ -114,12 +114,8 @@
 
 ## 类库模块编译命令
 bash .winboll/bashPublishLIBAddTag.sh <类库模块项目文件夹名称>
-# 类库模块编译命令执行后，编译器会发布到 WinBoll Maven 库：
-Nexus Maven 库地址为：
-"WinBollRelease"
-https://winboll.cc/nexus/repository/maven-releases/
-"WinBollSnapshot"
-"https://winboll.cc/nexus/repository/maven-snapshots/"
+# 类库模块编译命令执行后，编译器会发布到 WinBoll Nexus Maven 库：
+Maven 库地址可以参阅根项目目录配置 build.gradle 文件。
              
 ## 应用模块编译命令
 bash .winboll/bashPublishAPKAddTag.sh <应用模块项目文件夹名称>
