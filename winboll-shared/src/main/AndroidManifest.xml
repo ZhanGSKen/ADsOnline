@@ -20,13 +20,11 @@
         <activity
             android:name=".shared.app.CrashHandler$CrashActiviy"
             android:label="CrashActiviy"
-            android:icon="@drawable/ic_launcher"
             android:launchMode="standard"/>
 
         <activity
             android:name=".shared.log.LogActivity"
             android:label="LogActivity"
-            android:icon="@drawable/ic_launcher"
             android:launchMode="standard"/>
 
     </application>
