@@ -86,11 +86,11 @@ public class AboutView extends LinearLayout {
                             return;
                         }
                         if (!AppVersionUtils.isHasNewStageReleaseVersion(mszCurrentAppPackageName, mszNewestAppPackageName)) {
-                            ToastUtils.delayedShow("Current app is the neweest.", 5000);
+                            ToastUtils.delayedShow("Current app is the newest.", 5000);
                         } else {
                             String szMsg = "Current app is :\n[ " + mszCurrentAppPackageName
-                                + " ]\nThe newest app is :\n[ " + mszNewestAppPackageName
-                                + " ]\nIs download the newest app?";
+                                + " ]\nThe last app is :\n[ " + mszNewestAppPackageName
+                                + " ]\nIs download the last app?";
                             YesNoAlertDialog.show(mContext, "Application Update Prompt", szMsg, mIsDownlaodUpdateListener);
                         }
                         break;
