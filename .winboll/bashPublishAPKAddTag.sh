@@ -156,7 +156,7 @@ if [[ $? -eq 0 ]]; then
 	# 设置新版本开发参数配置
 	# 提交配置
 	git add .
-	git commit -m "<$0> Start New Stage Version."
+	git commit -m "<$0>Start New Stage Version."
 	echo "Push sources to git repositories ..."
     # 推送源码到所有仓库
     git push origin && git push origin --tags
