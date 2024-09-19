@@ -44,5 +44,5 @@ echo "< $1/build.properties publishVersion : ${PUBLISH_VERSION} >"
 #tag="v"${PUBLISH_VERSION}
 
 git add .
-git commit -m "Library Release ${PUBLISH_VERSION}"
+git commit -m "<$0> Library Release ${PUBLISH_VERSION}"
 git push origin && git push origin --tags
