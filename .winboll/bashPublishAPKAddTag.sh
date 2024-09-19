@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# 检查是否指定了将要发布的类库名称
+# 检查是否指定了将要发布的应用名称
 # 使用 `-z` 命令检查变量是否为空
 if [ -z "$1" ]; then
     echo "No APP name specified : $0"
@@ -46,9 +46,9 @@ function addWinBollTag {
 	echo "< $1/build.properties publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 WinBoll 标签
 	# 脚本调试时使用
-	#tag="v7.6.4-test1"
+	#tag="projectname-v7.6.4-test1"
 	# 正式设置标签时使用
-	tag=$0"-v"${PUBLISH_VERSION}
+	tag=$1"-v"${PUBLISH_VERSION}
 	echo "< WinBoll Tag To: $tag >";
 	# 检查是否已经添加了 WinBoll Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
@@ -68,9 +68,9 @@ function addWorkflowsTag {
 	echo "< $1/build.properties baseBetaVersion : ${BASE_BETA_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
-	#tag=$0"-v7.6.4-beta"
+	#tag="projectname-v7.6.4-beta"
 	# 正式设置标签时使用
-	tag=$0"-v"${BASE_BETA_VERSION}-beta
+	tag=$1"-v"${BASE_BETA_VERSION}-beta
 	echo "< Workflows Tag To: $tag >";
 	# 检查是否已经添加了工作流 Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
@@ -156,7 +156,7 @@ if [[ $? -eq 0 ]]; then
 	# 设置新版本开发参数配置
 	# 提交配置
 	git add .
-	git commit -m "<$0>Start New Stage Version."
+	git commit -m "<$1>Start New Stage Version."
 	echo "Push sources to git repositories ..."
     # 推送源码到所有仓库
     git push origin && git push origin --tags
