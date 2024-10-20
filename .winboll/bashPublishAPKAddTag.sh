@@ -113,7 +113,7 @@ if [[ $? -eq 0 ]]; then
     # 如果Git已经提交了所有代码就执行标签和应用发布操作
 
     # 预先询问是否添加工作流标签
-    echo "Add Github Workflows Tag? (yes/no)"
+    echo "Add Github Workflows Tag? (yes/No)"
 	result=$(askAddWorkflowsTag)
 	nAskAddWorkflowsTag=$?
 	echo $result
