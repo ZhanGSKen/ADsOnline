@@ -26,6 +26,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import cc.winboll.studio.shared.app.WinBollApplication;
 
 public class AboutView extends LinearLayout {
 
@@ -43,6 +44,7 @@ public class AboutView extends LinearLayout {
     String mszHomePage = "";
     String mszGitea = "";
     int mnAppIcon = 0;
+    String mszWinBollServerHost;
 
     public AboutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,6 +53,7 @@ public class AboutView extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         mContext = context;
+        mszWinBollServerHost = WinBollApplication.isDebug()?  "dev.winboll.cc":"www.winboll.cc";
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AboutView);
         mszAppName = typedArray.getString(R.styleable.AboutView_appname);
         mszAppProjectName = typedArray.getString(R.styleable.AboutView_appprojectname);
@@ -65,7 +68,7 @@ public class AboutView extends LinearLayout {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
         mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
-        mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
+        mszHomePage = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
         mszGitea = "https://gitea.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
@@ -154,7 +157,7 @@ public class AboutView extends LinearLayout {
             new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String szUrl = "https://winboll.cc/studio/details.php?app=" + mszAppName;
+                        String szUrl = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
                             .url(szUrl)
@@ -202,7 +205,7 @@ public class AboutView extends LinearLayout {
     YesNoAlertDialog.OnDialogResultListener mIsDownlaodUpdateListener = new YesNoAlertDialog.OnDialogResultListener() {
         @Override
         public void onYes() {
-            String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
+            String szUrl = "https://" + mszWinBollServerHost + "/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(szUrl));
             mContext.startActivity(browserIntent);
         }
