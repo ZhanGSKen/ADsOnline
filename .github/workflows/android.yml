@@ -4,10 +4,10 @@ name: Android CI
 on:
   push:
     tags:
-      - *-v*-beta
+      - *-beta
   pull_request:
     tags:
-      - *-v*-beta
+      - *-beta
 
 jobs:
   build:
