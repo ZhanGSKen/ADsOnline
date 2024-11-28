@@ -239,7 +239,7 @@ public class AboutView extends LinearLayout {
 
                                         // 提取并打印元素的文本内容
                                         mszNewestAppPackageName = elementWithId.text();
-                                        ToastUtils.delayedShow(text + "\n" + mszNewestAppPackageName, 5000);
+                                        //ToastUtils.delayedShow(text + "\n" + mszNewestAppPackageName, 5000);
 
                                         mHandler.sendMessage(mHandler.obtainMessage(MSG_APPUPDATE_CHECKED));
                                     } catch (Exception e) {
