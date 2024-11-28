@@ -34,6 +34,7 @@ import android.content.res.Resources.Theme;
 import android.content.res.Resources;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.content.SharedPreferences;
 
 abstract public class WinBollActivity extends AppCompatActivity {
 
@@ -148,6 +149,16 @@ abstract public class WinBollActivity extends AppCompatActivity {
     @Override
     public void recreate() {
         super.recreate();
+    }
+
+    @Override
+    public SharedPreferences getSharedPreferences(String name, int mode) {
+        return super.getSharedPreferences(name, mode);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
