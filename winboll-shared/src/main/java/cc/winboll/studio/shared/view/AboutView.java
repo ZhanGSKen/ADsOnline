@@ -27,6 +27,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import cc.winboll.studio.shared.app.WinBollApplication;
+import okhttp3.Credentials;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import android.view.LayoutInflater;
+import android.widget.EditText;
+import cc.winboll.studio.shared.util.PrefUtils;
 
 public class AboutView extends LinearLayout {
 
@@ -45,6 +51,9 @@ public class AboutView extends LinearLayout {
     String mszGitea = "";
     int mnAppIcon = 0;
     String mszWinBollServerHost;
+    String mszReleaseAPKName;
+    EditText metDevUserName;
+    EditText metDevUserPassword;
 
     public AboutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -70,12 +79,43 @@ public class AboutView extends LinearLayout {
         mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
         mszGitea = "https://gitea.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
-
-        addView(createAboutPage());
+        
+        if (WinBollApplication.isDebug()) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View addedView = inflater.inflate(R.layout.view_about_dev, this, false);
+            LinearLayout llMain = addedView.findViewById(R.id.viewaboutdevLinearLayout1);
+            metDevUserName = addedView.findViewById(R.id.viewaboutdevEditText1);
+            metDevUserPassword = addedView.findViewById(R.id.viewaboutdevEditText2);
+            metDevUserName.setText(PrefUtils.getString(mContext, "metDevUserName", ""));
+            metDevUserPassword.setText(PrefUtils.getString(mContext, "metDevUserPassword", ""));
+            llMain.addView(createAboutPage());
+            addView(addedView);
+        } else {
+            addView(createAboutPage());
+        }
+        
         // 初始化标题栏
         //setSubtitle(getContext().getString(R.string.text_about));
         //LinearLayout llMain = findViewById(R.id.viewaboutLinearLayout1);
         //llMain.addView(createAboutPage());
+        
+        // 就读取正式版应用包版本号，设置 Release 应用包文件名
+        String szReleaseAppVersionName = "";
+        try {
+            szReleaseAppVersionName = mContext.getPackageManager().getPackageInfo(subBetaSuffix(mContext.getPackageName()), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
+        }
+        mszReleaseAPKName = mszAppName + "_" + szReleaseAppVersionName + ".apk";
+        
+        
+    }
+    
+    public static String subBetaSuffix(String input) {
+        if (input.endsWith(".beta")) {
+            return input.substring(0, input.length() - ".beta".length());
+        }
+        return input;
     }
 
     android.os.Handler mHandler = new android.os.Handler() {
@@ -84,14 +124,16 @@ public class AboutView extends LinearLayout {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_APPUPDATE_CHECKED : {
+                        /*//检查当前应用包文件名是否是测试版，如果是就忽略检查
                         if(mszCurrentAppPackageName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
                             ToastUtils.show("APP is the beta Version. Version check ignore.");
                             return;
-                        }
-                        if (!AppVersionUtils.isHasNewStageReleaseVersion(mszCurrentAppPackageName, mszNewestAppPackageName)) {
+                        }*/
+                        
+                        if (!AppVersionUtils.isHasNewStageReleaseVersion(mszReleaseAPKName, mszNewestAppPackageName)) {
                             ToastUtils.delayedShow("Current app is the newest.", 5000);
                         } else {
-                            String szMsg = "Current app is :\n[ " + mszCurrentAppPackageName
+                            String szMsg = "Current app is :\n[ " + mszReleaseAPKName
                                 + " ]\nThe last app is :\n[ " + mszNewestAppPackageName
                                 + " ]\nIs download the last app?";
                             YesNoAlertDialog.show(mContext, "Application Update Prompt", szMsg, mIsDownlaodUpdateListener);
@@ -158,10 +200,18 @@ public class AboutView extends LinearLayout {
                     @Override
                     public void run() {
                         String szUrl = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
+                        // 构建包含认证信息的请求
+                        String credential = "";
+                        if(WinBollApplication.isDebug()) {
+                            credential = Credentials.basic(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
+                            PrefUtils.saveString(mContext, "metDevUserName", metDevUserName.getText().toString());
+                            PrefUtils.saveString(mContext, "metDevUserPassword", metDevUserPassword.getText().toString());
+                        }
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
                             .url(szUrl)
                             .header("Accept", "text/plain") // 设置正确的Content-Type头
+                            .header("Authorization", credential)
                             .build();
                         Call call = client.newCall(request);
                         call.enqueue(new Callback() {
@@ -189,7 +239,7 @@ public class AboutView extends LinearLayout {
 
                                         // 提取并打印元素的文本内容
                                         mszNewestAppPackageName = elementWithId.text();
-                                        //ToastUtils.delayedShow(textContent + "\n" + mszCurrentAppPackageVersionName, 5000);
+                                        ToastUtils.delayedShow(text + "\n" + mszNewestAppPackageName, 5000);
 
                                         mHandler.sendMessage(mHandler.obtainMessage(MSG_APPUPDATE_CHECKED));
                                     } catch (Exception e) {
