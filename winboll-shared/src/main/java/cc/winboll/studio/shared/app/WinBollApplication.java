@@ -6,6 +6,7 @@ import cc.winboll.studio.R;
 import cc.winboll.studio.shared.log.LogUtils;
 import com.hjq.toast.ToastUtils;
 import cc.winboll.studio.BuildConfig;
+import com.hjq.toast.style.WhiteToastStyle;
 
 public class WinBollApplication extends Application {
 
@@ -55,8 +56,8 @@ public class WinBollApplication extends Application {
         // 初始化 Toast 框架
         ToastUtils.init(this);
         // 设置 Toast 布局样式
-        ToastUtils.setView(R.layout.view_toast);
-        //ToastUtils.setStyle(new WhiteToastStyle());
+        //ToastUtils.setView(R.layout.view_toast);
+        ToastUtils.setStyle(new WhiteToastStyle());
         ToastUtils.setGravity(Gravity.BOTTOM, 0, 200);
 
         // 设置默认 WinBoll 应用 UI 类型
