@@ -89,6 +89,7 @@ public class AboutView extends LinearLayout {
             metDevUserName.setText(PrefUtils.getString(mContext, "metDevUserName", ""));
             metDevUserPassword.setText(PrefUtils.getString(mContext, "metDevUserPassword", ""));
             llMain.addView(createAboutPage());
+            llMain.addView(new DevelopHostConnectionStatusView(context));
             addView(addedView);
         } else {
             addView(createAboutPage());
