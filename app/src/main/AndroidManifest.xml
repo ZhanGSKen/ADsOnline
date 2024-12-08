@@ -7,8 +7,11 @@
     <!-- 拥有完全的网络访问权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- BIND_AUTOFILL_SERVICE -->
+    <uses-permission android:name="android.permission.BIND_AUTOFILL_SERVICE"/>
+
     <application
-        android:name="cc.winboll.studio.shared.app.WinBollApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_winboll"
         android:label="@string/app_name"
@@ -31,7 +34,8 @@
 
         </activity>
 
-        <activity android:name=".activities.AboutActivity"
+        <activity
+            android:name=".activities.AboutActivity"
             android:label="AboutActivity"/>
 
     </application>

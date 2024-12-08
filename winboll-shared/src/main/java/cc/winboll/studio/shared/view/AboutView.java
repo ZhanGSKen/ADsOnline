@@ -12,27 +12,26 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.autofill.AutofillManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import cc.winboll.studio.R;
 import cc.winboll.studio.shared.app.AppVersionUtils;
+import cc.winboll.studio.shared.app.WinBollApplication;
 import cc.winboll.studio.shared.log.LogUtils;
+import cc.winboll.studio.shared.util.PrefUtils;
 import com.hjq.toast.ToastUtils;
 import java.io.IOException;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import cc.winboll.studio.shared.app.WinBollApplication;
-import okhttp3.Credentials;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import android.view.LayoutInflater;
-import android.widget.EditText;
-import cc.winboll.studio.shared.util.PrefUtils;
 
 public class AboutView extends LinearLayout {
 
@@ -41,6 +40,8 @@ public class AboutView extends LinearLayout {
     public static final int MSG_APPUPDATE_CHECKED = 0;
 
     Context mContext;
+    DevelopHostConnectionStatusView mDevelopHostConnectionStatusView;
+    OnRequestDevUserInfoAutofillListener mOnRequestDevUserInfoAutofillListener;
     String mszAppName = "";
     String mszAppProjectName = "";
     String mszAppVersionName = "";
@@ -62,7 +63,7 @@ public class AboutView extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         mContext = context;
-        mszWinBollServerHost = WinBollApplication.isDebug()?  "dev.winboll.cc":"www.winboll.cc";
+        mszWinBollServerHost = WinBollApplication.isDebug() ?  "dev.winboll.cc": "www.winboll.cc";
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AboutView);
         mszAppName = typedArray.getString(R.styleable.AboutView_appname);
         mszAppProjectName = typedArray.getString(R.styleable.AboutView_appprojectname);
@@ -79,7 +80,7 @@ public class AboutView extends LinearLayout {
         mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
         mszGitea = "https://gitea.winboll.cc/WinBoll/" + mszAppProjectName + ".git";
-        
+
         if (WinBollApplication.isDebug()) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             View addedView = inflater.inflate(R.layout.view_about_dev, this, false);
@@ -88,18 +89,31 @@ public class AboutView extends LinearLayout {
             metDevUserPassword = addedView.findViewById(R.id.viewaboutdevEditText2);
             metDevUserName.setText(PrefUtils.getString(mContext, "metDevUserName", ""));
             metDevUserPassword.setText(PrefUtils.getString(mContext, "metDevUserPassword", ""));
+            //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
+            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutdevDevelopHostConnectionStatusView1);
+            mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
+            mDevelopHostConnectionStatusView.setAuthInfo(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
+            //llMain.addView(mDevelopHostConnectionStatusView);
             llMain.addView(createAboutPage());
-            llMain.addView(new DevelopHostConnectionStatusView(context));
             addView(addedView);
         } else {
-            addView(createAboutPage());
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View addedView = inflater.inflate(R.layout.view_about_www, this, false);
+            LinearLayout llMain = addedView.findViewById(R.id.viewaboutwwwLinearLayout1);
+            //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
+            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutwwwDevelopHostConnectionStatusView1);
+            mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
+            mDevelopHostConnectionStatusView.setAuthInfo("", "");
+            //llMain.addView(mDevelopHostConnectionStatusView);
+            llMain.addView(createAboutPage());
+            addView(addedView);
         }
-        
+
         // 初始化标题栏
         //setSubtitle(getContext().getString(R.string.text_about));
         //LinearLayout llMain = findViewById(R.id.viewaboutLinearLayout1);
         //llMain.addView(createAboutPage());
-        
+
         // 就读取正式版应用包版本号，设置 Release 应用包文件名
         String szReleaseAppVersionName = "";
         try {
@@ -108,10 +122,10 @@ public class AboutView extends LinearLayout {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
         mszReleaseAPKName = mszAppName + "_" + szReleaseAppVersionName + ".apk";
-        
-        
+
+
     }
-    
+
     public static String subBetaSuffix(String input) {
         if (input.endsWith(".beta")) {
             return input.substring(0, input.length() - ".beta".length());
@@ -126,11 +140,11 @@ public class AboutView extends LinearLayout {
             switch (msg.what) {
                 case MSG_APPUPDATE_CHECKED : {
                         /*//检查当前应用包文件名是否是测试版，如果是就忽略检查
-                        if(mszCurrentAppPackageName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
-                            ToastUtils.show("APP is the beta Version. Version check ignore.");
-                            return;
-                        }*/
-                        
+                         if(mszCurrentAppPackageName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
+                         ToastUtils.show("APP is the beta Version. Version check ignore.");
+                         return;
+                         }*/
+
                         if (!AppVersionUtils.isHasNewStageReleaseVersion(mszReleaseAPKName, mszNewestAppPackageName)) {
                             ToastUtils.delayedShow("Current app is the newest.", 5000);
                         } else {
@@ -203,7 +217,7 @@ public class AboutView extends LinearLayout {
                         String szUrl = "https://" + mszWinBollServerHost + "/studio/details.php?app=" + mszAppName;
                         // 构建包含认证信息的请求
                         String credential = "";
-                        if(WinBollApplication.isDebug()) {
+                        if (WinBollApplication.isDebug()) {
                             credential = Credentials.basic(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
                             PrefUtils.saveString(mContext, "metDevUserName", metDevUserName.getText().toString());
                             PrefUtils.saveString(mContext, "metDevUserPassword", metDevUserPassword.getText().toString());
@@ -265,4 +279,12 @@ public class AboutView extends LinearLayout {
         public void onNo() {
         }
     };
+
+    public interface OnRequestDevUserInfoAutofillListener {
+        void requestAutofill(EditText etDevUserName, EditText etDevUserPassword);
+    }
+
+    public void setOnRequestDevUserInfoAutofillListener(OnRequestDevUserInfoAutofillListener l) {
+        mOnRequestDevUserInfoAutofillListener = l;
+    }
 }

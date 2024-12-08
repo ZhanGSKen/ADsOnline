@@ -1,14 +1,27 @@
 package cc.winboll.studio.app.activities;
 
+import android.app.assist.AssistStructure;
 import android.os.Bundle;
+import android.service.autofill.Dataset;
+import android.service.autofill.FillCallback;
+import android.service.autofill.FillContext;
+import android.service.autofill.FillRequest;
+import android.service.autofill.FillResponse;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.autofill.AutofillId;
+import android.view.autofill.AutofillManager;
+import android.view.autofill.AutofillValue;
+import android.widget.EditText;
+import android.widget.RemoteViews;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.os.CancellationSignal;
 import cc.winboll.studio.app.R;
 import cc.winboll.studio.shared.app.WinBollActivity;
-import com.hjq.toast.ToastUtils;
 import cc.winboll.studio.shared.app.WinBollActivityManager;
-import cc.winboll.studio.app.MainActivity;
+import com.hjq.toast.ToastUtils;
+import java.util.List;
+import cc.winboll.studio.shared.view.AboutView;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -17,7 +30,7 @@ import cc.winboll.studio.app.MainActivity;
  */
 final public class AboutActivity extends WinBollActivity {
 
-    public static final String TAG = "AboutFragmentActivity";
+    public static final String TAG = "AboutActivity";
 
     @Override
     public String getTag() {
@@ -33,6 +46,19 @@ final public class AboutActivity extends WinBollActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        /*AboutView aboutView = findViewById(R.id.activityaboutAboutView1);
+        aboutView.setOnRequestDevUserInfoAutofillListener(new AboutView.OnRequestDevUserInfoAutofillListener(){
+
+                @Override
+                public void requestAutofill(EditText etDevUserName, EditText etDevUserPassword) {
+                     AutofillManager autofillManager = (AutofillManager) getSystemService(AutofillManager.class);
+                    if (autofillManager!= null) {
+                        //ToastUtils.show("0");
+                        autofillManager.requestAutofill(findViewById(R.id.usernameEditText));
+                        autofillManager.requestAutofill(findViewById(R.id.passwordEditText));
+                    }
+                }
+            });*/
     }
 
     @Override
