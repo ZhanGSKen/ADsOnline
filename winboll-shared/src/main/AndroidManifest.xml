@@ -27,6 +27,10 @@
             android:label="LogActivity"
             android:launchMode="standard"/>
 
+        <service android:name="cc.winboll.studio.shared.service.WinBollService"/>
+
+        <service android:name="cc.winboll.studio.shared.service.AssistantService"/>
+
     </application>
 
 </manifest>

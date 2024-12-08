@@ -40,7 +40,7 @@ public class AboutView extends LinearLayout {
     public static final int MSG_APPUPDATE_CHECKED = 0;
 
     Context mContext;
-    DevelopHostConnectionStatusView mDevelopHostConnectionStatusView;
+    WinBollServerHostConnectionStatusView mDevelopHostConnectionStatusView;
     OnRequestDevUserInfoAutofillListener mOnRequestDevUserInfoAutofillListener;
     String mszAppName = "";
     String mszAppProjectName = "";
@@ -90,7 +90,7 @@ public class AboutView extends LinearLayout {
             metDevUserName.setText(PrefUtils.getString(mContext, "metDevUserName", ""));
             metDevUserPassword.setText(PrefUtils.getString(mContext, "metDevUserPassword", ""));
             //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
-            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutdevDevelopHostConnectionStatusView1);
+            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutdevWinBollServerHostConnectionStatusView1);
             mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
             mDevelopHostConnectionStatusView.setAuthInfo(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
             //llMain.addView(mDevelopHostConnectionStatusView);
@@ -101,7 +101,7 @@ public class AboutView extends LinearLayout {
             View addedView = inflater.inflate(R.layout.view_about_www, this, false);
             LinearLayout llMain = addedView.findViewById(R.id.viewaboutwwwLinearLayout1);
             //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
-            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutwwwDevelopHostConnectionStatusView1);
+            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutwwwWinBollServerHostConnectionStatusView1);
             mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
             mDevelopHostConnectionStatusView.setAuthInfo("", "");
             //llMain.addView(mDevelopHostConnectionStatusView);
