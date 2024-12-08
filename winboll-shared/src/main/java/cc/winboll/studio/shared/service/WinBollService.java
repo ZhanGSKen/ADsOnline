@@ -1,21 +1,25 @@
 package cc.winboll.studio.shared.service;
 
 import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import cc.winboll.studio.shared.util.ServiceUtils;
-import android.content.Context;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
-import com.hjq.toast.ToastUtils;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.RemoteException;
 import cc.winboll.studio.shared.log.LogUtils;
+import cc.winboll.studio.shared.util.ServiceUtils;
+import com.hjq.toast.ToastUtils;
+import java.io.FileDescriptor;
 
 /**
  * @Author ZhanGSKen@QQ.COM
  * @Date 2024/12/08 19:42:07
  * @Describe WinBoll 服务进程
  */
-public class WinBollService extends Service {
+public class WinBollService extends Service implements IWinBollServiceBinder {
 
     public static final String TAG = "WinBollService";
 
@@ -31,7 +35,13 @@ public class WinBollService extends Service {
         //return true;
         return _isServiceAlive;
     }
+    
 
+    @Override
+    public WinBollService getService() {
+        return WinBollService.this;
+    }
+    
     @Override
     public IBinder onBind(Intent intent) {
 
@@ -73,6 +83,9 @@ public class WinBollService extends Service {
                     }
                     mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(this);
                 }
+                
+                // 服务退出
+                _isServiceAlive = false;
             }
         }
     }
@@ -127,5 +140,13 @@ public class WinBollService extends Service {
     boolean getWinBollServiceEnableStatus(Context context) {
         mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(context);
         return mWinBollServiceBean.isEnable();
+    }
+    
+    public interface OnServerStatusChangeListener {
+        void onServerStatusChange(boolean isServiceAlive);
+    }
+
+    public void setOnServerStatusChangeListener(OnServerStatusChangeListener l) {
+        mOnServerStatusChangeListener = l;
     }
 }
