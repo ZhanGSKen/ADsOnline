@@ -7,7 +7,9 @@ package cc.winboll.studio.shared.log;
  * @Describe 应用日志类
  */
 import android.content.Context;
+import android.widget.Toast;
 import cc.winboll.studio.shared.app.FileUtils;
+import cc.winboll.studio.shared.app.WinBollApplication;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -46,20 +48,40 @@ public class LogUtils {
     // 初始化函数
     //
     public static void init(Context context, LOG_LEVEL logLevel) {
-        // 初始化日志缓存文件路径
-        _mfLogCacheDir = new File(context.getApplicationContext().getExternalCacheDir(), TAG);
-        if (!_mfLogCacheDir.exists()) {
-            _mfLogCacheDir.mkdirs();
-        }
-        _mfLogCatchFile = new File(_mfLogCacheDir, "log.txt");
-        
-        // 初始化日志配置文件路径
-        _mfLogDataDir = context.getApplicationContext().getExternalFilesDir(TAG);
-        if (!_mfLogDataDir.exists()) {
-            _mfLogDataDir.mkdirs();
-        }
-        _mfLogUtilsBeanFile = new File(_mfLogDataDir, TAG + ".json");
+        if (WinBollApplication.isDebug()) {
+            // 初始化日志缓存文件路径
+            _mfLogCacheDir = new File(context.getApplicationContext().getExternalCacheDir(), TAG);
+            if (!_mfLogCacheDir.exists()) {
+                _mfLogCacheDir.mkdirs();
+            }
+            _mfLogCatchFile = new File(_mfLogCacheDir, "log.txt");
 
+            // 初始化日志配置文件路径
+            _mfLogDataDir = context.getApplicationContext().getExternalFilesDir(TAG);
+            if (!_mfLogDataDir.exists()) {
+                _mfLogDataDir.mkdirs();
+            }
+            _mfLogUtilsBeanFile = new File(_mfLogDataDir, TAG + ".json");
+        } else {
+            // 初始化日志缓存文件路径
+            _mfLogCacheDir = new File(context.getApplicationContext().getCacheDir(), TAG);
+            if (!_mfLogCacheDir.exists()) {
+                _mfLogCacheDir.mkdirs();
+            }
+            _mfLogCatchFile = new File(_mfLogCacheDir, "log.txt");
+
+            // 初始化日志配置文件路径
+            _mfLogDataDir = new File(context.getApplicationContext().getFilesDir(), TAG);
+            if (!_mfLogDataDir.exists()) {
+                _mfLogDataDir.mkdirs();
+            }
+            _mfLogUtilsBeanFile = new File(_mfLogDataDir, TAG + ".json");
+        }
+
+        Toast.makeText(context,
+                       "_mfLogUtilsBeanFile : " + _mfLogUtilsBeanFile
+                       + "\n_mfLogCatchFile : " + _mfLogCatchFile,
+                       Toast.LENGTH_SHORT).show();
 
         _mLogUtilsBean = LogUtilsBean.loadBeanFromFile(_mfLogUtilsBeanFile.getPath(), LogUtilsBean.class);
         if (_mLogUtilsBean == null) {
@@ -221,6 +243,4 @@ public class LogUtils {
             }
         }
     }
-
-
 }

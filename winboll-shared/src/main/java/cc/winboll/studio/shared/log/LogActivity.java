@@ -4,6 +4,9 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import cc.winboll.studio.R;
 import cc.winboll.studio.shared.app.WinBollActivity;
+import cc.winboll.studio.shared.ads.ADsView;
+import cc.winboll.studio.shared.app.WinBollApplication;
+import android.view.View;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -15,6 +18,7 @@ public class LogActivity extends WinBollActivity {
     public static final String TAG = "LogActivity";
 
     LogView mLogView;
+    ADsView mADsView;
 
     @Override
     protected boolean isEnableDisplayHomeAsUp() {
@@ -27,8 +31,12 @@ public class LogActivity extends WinBollActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
         mLogView = findViewById(R.id.logview);
-        mLogView.start();
-
+        mADsView = findViewById(R.id.adsview);
+        mADsView.loadUrl("https://www.winboll.cc");
+        //mLogView.setVisibility(WinBollApplication.isDebug()?View.GONE:View.VISIBLE);
+        //mADsView.setVisibility(WinBollApplication.isDebug()?View.GONE:View.VISIBLE);
+        
+        if(WinBollApplication.isDebug()) { mLogView.start(); }
     }
 
     @Override
