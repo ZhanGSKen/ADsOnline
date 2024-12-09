@@ -21,9 +21,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import cc.winboll.studio.R;
 import cc.winboll.studio.shared.log.LogUtils;
-import cc.winboll.studio.shared.service.IWinBollServiceBinder;
-import cc.winboll.studio.shared.service.WinBollService;
-import cc.winboll.studio.shared.service.WinBollServiceBean;
+import cc.winboll.studio.shared.service.IWinBollClientServiceBinder;
+import cc.winboll.studio.shared.service.WinBollClientService;
+import cc.winboll.studio.shared.service.WinBollClientServiceBean;
 import com.hjq.toast.ToastUtils;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -47,7 +47,7 @@ public class WinBollServiceStatusView extends LinearLayout {
     ConnectionThread mConnectionThread;
 
     String mszServerHost;
-    WinBollService mWinBollService;
+    WinBollClientService mWinBollService;
     ImageView mImageView;
     TextView mTextView;
     WinBollServiceViewHandler mWinBollServiceViewHandler;
@@ -68,7 +68,7 @@ public class WinBollServiceStatusView extends LinearLayout {
     ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IWinBollServiceBinder binder = (IWinBollServiceBinder) service;
+            IWinBollClientServiceBinder binder = (IWinBollClientServiceBinder) service;
             mWinBollService = binder.getService();
             isBound = true;
             // 可以在这里调用Service的方法进行通信，比如获取数据
@@ -105,12 +105,18 @@ public class WinBollServiceStatusView extends LinearLayout {
         initView();
     }
 
+    ConnectionStatus getConnectionStatus() {
+        return false ?
+            ConnectionStatus.CONNECTED 
+            : ConnectionStatus.DISCONNECTED;
+    }
+
     void initView() {
         mImageView = new ImageView(mContext);
-        mConnectionStatus = WinBollService.isServiceAlive() ? ConnectionStatus.CONNECTED : ConnectionStatus.DISCONNECTED;
+        setImageViewByConnection(mImageView, false);
+        mConnectionStatus = getConnectionStatus();
         //mIsConnected = false;
         //mWinBollServerHostConnectionStatus = WinBollServerHostConnectionStatus.DISCONNECTED;
-        setConnectionStatusView(false);
         //ToastUtils.show("initView()");
 
         mViewOnClickListener = new View.OnClickListener(){
@@ -120,14 +126,14 @@ public class WinBollServiceStatusView extends LinearLayout {
                 //ToastUtils.show("mWinBollServerHostConnectionStatus : " + mWinBollServerHostConnectionStatus);
                 //isConnected = !isConnected;
                 if (mConnectionStatus == ConnectionStatus.CONNECTED) {
-                    //ToastUtils.show("Click to stop service.");
-                    WinBollServiceBean bean = WinBollServiceBean.loadWinBollServiceBean(mContext);
+                    ToastUtils.show("Click to stop service.");
+                    WinBollClientServiceBean bean = WinBollClientServiceBean.loadWinBollClientServiceBean(mContext);
                     bean.setIsEnable(false);
-                    WinBollServiceBean.saveBean(mContext, bean);
-                    mConnectionStatus = ConnectionStatus.DISCONNECTED;
-                    Intent intent = new Intent(mContext, WinBollService.class);
+                    WinBollClientServiceBean.saveBean(mContext, bean);
+                    Intent intent = new Intent(mContext, WinBollClientService.class);
                     mContext.stopService(intent);
-//                    
+                    mConnectionStatus = ConnectionStatus.DISCONNECTED;
+//                  
                     /*//ToastUtils.show("CONNECTED");
                      setConnectionStatusView(false);
                      mWinBollServerHostConnectionStatusViewHandler.postMessageText("");
@@ -138,15 +144,14 @@ public class WinBollServiceStatusView extends LinearLayout {
                      ToastUtils.show("WinBoll Server Disconnected.");
                      }*/
                 } else if (mConnectionStatus == ConnectionStatus.DISCONNECTED) {
-
-                    //ToastUtils.show("Click to start service.");
-                    WinBollServiceBean bean = WinBollServiceBean.loadWinBollServiceBean(mContext);
+                    ToastUtils.show("Click to start service.");
+                    WinBollClientServiceBean bean = WinBollClientServiceBean.loadWinBollClientServiceBean(mContext);
                     bean.setIsEnable(true);
-                    WinBollServiceBean.saveBean(mContext, bean);
-                    mConnectionStatus = ConnectionStatus.CONNECTED;
-                    Intent intent = new Intent(mContext, WinBollService.class);
+                    WinBollClientServiceBean.saveBean(mContext, bean);
+                    Intent intent = new Intent(mContext, WinBollClientService.class);
                     mContext.startService(intent);
-
+                    mConnectionStatus = ConnectionStatus.CONNECTED;
+                    ToastUtils.show("startService");
                     /*//ToastUtils.show("DISCONNECTED");
                      setConnectionStatusView(true);
 
@@ -186,11 +191,12 @@ public class WinBollServiceStatusView extends LinearLayout {
     }
 
     void checkWinBollServerStatusAndUpdateCurrentView() {
-        if (WinBollService.isServiceAlive()) {
-            mConnectionStatus = ConnectionStatus.CONNECTED;
-        } else {
-            mConnectionStatus = ConnectionStatus.DISCONNECTED;
-        }
+        LogUtils.d(TAG, "checkWinBollServerStatusAndUpdateCurrentView()");
+        /*if (getConnectionStatus() == ConnectionStatus.CONNECTED) {
+         mConnectionStatus = ConnectionStatus.CONNECTED;
+         } else {
+         mConnectionStatus = ConnectionStatus.DISCONNECTED;
+         }*/
     }
 
     public void setServerHost(String szWinBollServerHost) {
@@ -202,12 +208,12 @@ public class WinBollServiceStatusView extends LinearLayout {
         _mPassword = password;
     }
 
-    void setConnectionStatusView(boolean isConnected) {
+    void setImageViewByConnection(ImageView imageView, boolean isConnected) {
         //mIsConnected = isConnected;
         // 获取vector drawable
         Drawable drawable = ContextCompat.getDrawable(mContext, isConnected ? R.drawable.ic_dev_connected : R.drawable.ic_dev_disconnected);
         if (drawable != null) {
-            mImageView.setImageDrawable(drawable);
+            imageView.setImageDrawable(drawable);
         }
     }
 
@@ -249,7 +255,7 @@ public class WinBollServiceStatusView extends LinearLayout {
                 textViewHandler.postMessageConnectionStatus(true);
             } else {
                 String sz = "请求失败，状态码: " + response.code();
-                setConnectionStatusView(false);
+                setImageViewByConnection(mImageView, false);
                 textViewHandler.postMessageText(sz);
                 textViewHandler.postMessageConnectionStatus(false);
                 LogUtils.d(TAG, sz);
@@ -273,7 +279,7 @@ public class WinBollServiceStatusView extends LinearLayout {
             if (msg.what == MSG_CONNECTION_INFO) {
                 mDevelopHostConnectionStatusView.mTextView.setText((String)msg.obj);
             } else if (msg.what == MSG_UPDATE_CONNECTION_STATUS) {
-                mDevelopHostConnectionStatusView.setConnectionStatusView((boolean)msg.obj);
+                mDevelopHostConnectionStatusView.setImageViewByConnection(mImageView, (boolean)msg.obj);
                 mDevelopHostConnectionStatusView.mConnectionStatus = ((boolean)msg.obj) ? ConnectionStatus.CONNECTED : ConnectionStatus.DISCONNECTED;
             }
             super.handleMessage(msg);

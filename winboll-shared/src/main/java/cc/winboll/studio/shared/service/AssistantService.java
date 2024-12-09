@@ -17,7 +17,7 @@ public class AssistantService extends Service {
 
     public final static String TAG = "AssistantService";
 
-    WinBollServiceBean mWinBollServiceBean;
+    WinBollClientServiceBean mWinBollServiceBean;
     MyServiceConnection mMyServiceConnection;
     volatile boolean mIsServiceRunning;
 
@@ -29,7 +29,7 @@ public class AssistantService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(this);
+        mWinBollServiceBean = WinBollClientServiceBean.loadWinBollClientServiceBean(this);
         if (mMyServiceConnection == null) {
             mMyServiceConnection = new MyServiceConnection();
         }
@@ -54,7 +54,7 @@ public class AssistantService extends Service {
     // 运行服务内容
     //
     void run() {
-        mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(this);
+        mWinBollServiceBean = WinBollClientServiceBean.loadWinBollClientServiceBean(this);
         if (mWinBollServiceBean.isEnable()) {
             if (mIsServiceRunning == false) {
                 // 设置运行状态
@@ -69,11 +69,11 @@ public class AssistantService extends Service {
     // 唤醒和绑定主进程
     //
     void wakeupAndBindMain() {
-        if (ServiceUtils.isServiceAlive(getApplicationContext(), WinBollService.class.getName()) == false) {
-            startForegroundService(new Intent(AssistantService.this, WinBollService.class));
+        if (ServiceUtils.isServiceAlive(getApplicationContext(), WinBollClientService.class.getName()) == false) {
+            startForegroundService(new Intent(AssistantService.this, WinBollClientService.class));
         }
 
-        bindService(new Intent(AssistantService.this, WinBollService.class), mMyServiceConnection, Context.BIND_IMPORTANT);
+        bindService(new Intent(AssistantService.this, WinBollClientService.class), mMyServiceConnection, Context.BIND_IMPORTANT);
     }
 
     //
@@ -86,7 +86,7 @@ public class AssistantService extends Service {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(AssistantService.this);
+            mWinBollServiceBean = WinBollClientServiceBean.loadWinBollClientServiceBean(AssistantService.this);
             if (mWinBollServiceBean.isEnable()) {
                 wakeupAndBindMain();
             }

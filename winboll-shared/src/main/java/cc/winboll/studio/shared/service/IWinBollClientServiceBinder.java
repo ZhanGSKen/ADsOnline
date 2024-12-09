@@ -1,16 +1,17 @@
 package cc.winboll.studio.shared.service;
-import android.graphics.drawable.Drawable;
 
 /**
  * @Author ZhanGSKen@QQ.COM
  * @Date 2024/12/08 23:40:05
  * @Describe WinBollService 服务 Binder。
  */
-public interface IWinBollServiceBinder {
+import android.graphics.drawable.Drawable;
+
+public interface IWinBollClientServiceBinder {
     
-    public static final String TAG = "IWinBollServiceBinder";
+    public static final String TAG = "IWinBollClientServiceBinder";
     
-    public WinBollService getService();
+    public WinBollClientService getService();
     
     public Drawable getCurrentStatusIconDrawable();
 }

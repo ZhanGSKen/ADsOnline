@@ -10,13 +10,13 @@ import android.content.Context;
  * @Date 2024/12/08 19:44:57
  * @Describe WinBollService 运行参数配置
  */
-public class WinBollServiceBean extends BaseBean {
+public class WinBollClientServiceBean extends BaseBean {
 
-    public static final String TAG = "WinBollServiceBean";
+    public static final String TAG = "WinBollClientServiceBean";
 
     volatile boolean isEnable;
 
-    public WinBollServiceBean() {
+    public WinBollClientServiceBean() {
         isEnable = false;
     }
 
@@ -30,13 +30,13 @@ public class WinBollServiceBean extends BaseBean {
 
     @Override
     public String getName() {
-        return WinBollServiceBean.class.getName();
+        return WinBollClientServiceBean.class.getName();
     }
 
     @Override
     public void writeThisToJsonWriter(JsonWriter jsonWriter) throws IOException {
         super.writeThisToJsonWriter(jsonWriter);
-        WinBollServiceBean bean = this;
+        WinBollClientServiceBean bean = this;
         jsonWriter.name("isEnable").value(bean.isEnable());
     }
 
@@ -66,12 +66,12 @@ public class WinBollServiceBean extends BaseBean {
         return this;
     }
 
-    public static WinBollServiceBean loadWinBollServiceBean(Context context) {
-        WinBollServiceBean bean = WinBollServiceBean.loadBean(context, WinBollServiceBean.class);
-        return bean == null ? new WinBollServiceBean() : bean;
+    public static WinBollClientServiceBean loadWinBollClientServiceBean(Context context) {
+        WinBollClientServiceBean bean = WinBollClientServiceBean.loadBean(context, WinBollClientServiceBean.class);
+        return bean == null ? new WinBollClientServiceBean() : bean;
     }
 
-    public static boolean saveWinBollServiceBean(WinBollService service, WinBollServiceBean bean) {
-        return WinBollServiceBean.saveBean(service, bean);
+    public static boolean saveWinBollServiceBean(WinBollClientService service, WinBollClientServiceBean bean) {
+        return WinBollClientServiceBean.saveBean(service, bean);
     }
 }
