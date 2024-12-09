@@ -1,4 +1,5 @@
 package cc.winboll.studio.shared.service;
+import android.graphics.drawable.Drawable;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -11,4 +12,5 @@ public interface IWinBollServiceBinder {
     
     public WinBollService getService();
     
+    public Drawable getCurrentStatusIconDrawable();
 }

@@ -53,10 +53,10 @@
 		android:layout_height="wrap_content"
 		android:gravity="center_horizontal">
 
-		<cc.winboll.studio.shared.view.WinBollServerHostConnectionStatusView
+		<cc.winboll.studio.shared.view.WinBollServiceStatusView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:id="@+id/viewaboutdevWinBollServerHostConnectionStatusView1"/>
+			android:id="@+id/viewaboutdevWinBollServiceStatusView1"/>
 
 	</LinearLayout>
 

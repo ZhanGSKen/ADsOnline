@@ -13,6 +13,7 @@ import cc.winboll.studio.shared.log.LogUtils;
 import cc.winboll.studio.shared.util.ServiceUtils;
 import com.hjq.toast.ToastUtils;
 import java.io.FileDescriptor;
+import android.graphics.drawable.Drawable;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -35,16 +36,21 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
         //return true;
         return _isServiceAlive;
     }
-    
 
     @Override
     public WinBollService getService() {
         return WinBollService.this;
     }
-    
+
+    @Override
+    public Drawable getCurrentStatusIconDrawable() {
+        return _isServiceAlive ?
+            getDrawable(EWUIStatusIconDrawable.getIconDrawableId(EWUIStatusIconDrawable.NORMAL))
+            : getDrawable(EWUIStatusIconDrawable.getIconDrawableId(EWUIStatusIconDrawable.NEWS));
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-
         return null;
     }
 
@@ -59,7 +65,8 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        run();
+        //run();
+        ToastUtils.show("onStartCommand");
         return mWinBollServiceBean.isEnable() ? Service.START_STICKY: super.onStartCommand(intent, flags, startId);
     }
 
@@ -72,8 +79,8 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
 
                 // 唤醒守护进程
                 wakeupAndBindAssistant();
-                
-                while(mWinBollServiceBean.isEnable()) {
+
+                while (mWinBollServiceBean.isEnable()) {
                     // 显示运行状态
                     ToastUtils.show(TAG + " is running.");
                     try {
@@ -83,7 +90,7 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
                     }
                     mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(this);
                 }
-                
+
                 // 服务退出
                 _isServiceAlive = false;
             }
@@ -122,8 +129,7 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // 显示运行状态
-        ToastUtils.show(TAG + " is start.");
+        ToastUtils.show("onDestroy");
     }
 
     @Override
@@ -141,12 +147,12 @@ public class WinBollService extends Service implements IWinBollServiceBinder {
         mWinBollServiceBean = WinBollServiceBean.loadWinBollServiceBean(context);
         return mWinBollServiceBean.isEnable();
     }
-    
-    public interface OnServerStatusChangeListener {
+
+    /*public interface OnServiceStatusChangeListener {
         void onServerStatusChange(boolean isServiceAlive);
     }
 
-    public void setOnServerStatusChangeListener(OnServerStatusChangeListener l) {
+    public void setOnServerStatusChangeListener(OnServiceStatusChangeListener l) {
         mOnServerStatusChangeListener = l;
-    }
+    }*/
 }

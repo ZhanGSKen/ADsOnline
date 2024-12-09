@@ -40,7 +40,7 @@ public class AboutView extends LinearLayout {
     public static final int MSG_APPUPDATE_CHECKED = 0;
 
     Context mContext;
-    WinBollServerHostConnectionStatusView mDevelopHostConnectionStatusView;
+    WinBollServiceStatusView mWinBollServiceStatusView;
     OnRequestDevUserInfoAutofillListener mOnRequestDevUserInfoAutofillListener;
     String mszAppName = "";
     String mszAppProjectName = "";
@@ -90,9 +90,9 @@ public class AboutView extends LinearLayout {
             metDevUserName.setText(PrefUtils.getString(mContext, "metDevUserName", ""));
             metDevUserPassword.setText(PrefUtils.getString(mContext, "metDevUserPassword", ""));
             //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
-            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutdevWinBollServerHostConnectionStatusView1);
-            mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
-            mDevelopHostConnectionStatusView.setAuthInfo(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
+            mWinBollServiceStatusView = addedView.findViewById(R.id.viewaboutdevWinBollServiceStatusView1);
+            mWinBollServiceStatusView.setServerHost(mszWinBollServerHost);
+            mWinBollServiceStatusView.setAuthInfo(metDevUserName.getText().toString(), metDevUserPassword.getText().toString());
             //llMain.addView(mDevelopHostConnectionStatusView);
             llMain.addView(createAboutPage());
             addView(addedView);
@@ -101,9 +101,9 @@ public class AboutView extends LinearLayout {
             View addedView = inflater.inflate(R.layout.view_about_www, this, false);
             LinearLayout llMain = addedView.findViewById(R.id.viewaboutwwwLinearLayout1);
             //mDevelopHostConnectionStatusView = new DevelopHostConnectionStatusView(context);
-            mDevelopHostConnectionStatusView = addedView.findViewById(R.id.viewaboutwwwWinBollServerHostConnectionStatusView1);
-            mDevelopHostConnectionStatusView.setServerHost(mszWinBollServerHost);
-            mDevelopHostConnectionStatusView.setAuthInfo("", "");
+            mWinBollServiceStatusView = addedView.findViewById(R.id.viewaboutwwwWinBollServiceStatusView1);
+            mWinBollServiceStatusView.setServerHost(mszWinBollServerHost);
+            mWinBollServiceStatusView.setAuthInfo("", "");
             //llMain.addView(mDevelopHostConnectionStatusView);
             llMain.addView(createAboutPage());
             addView(addedView);
