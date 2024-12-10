@@ -1,0 +1,13 @@
+// 本示例只是方便项目源码部署而创建仅供参考
+//
+
+// app 类型模块编译管理配置
+// WinBoll-Demo 项目编译设置
+//include ':demo'
+//rootProject.name = "demo"
+
+// class libraries 类型模块编译管理配置
+// WinBoll-APP 项目编译设置
+//include ':app'
+//include ':winboll-shared'
+//rootProject.name = "app"
