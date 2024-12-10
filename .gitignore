@@ -85,5 +85,4 @@ lint/tmp/
 ## The general solution is ignored file
 ## 通解适配忽略文件
 ## Android Studio - AIDE Pro - AndrioidIDE
-.androidide/
 app/
