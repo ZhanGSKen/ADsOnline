@@ -83,6 +83,26 @@ lint/tmp/
 # lint/reports/
 
 ## The general solution is ignored file
-## 通解适配忽略文件
-## Android Studio - AIDE Pro - AndrioidIDE
+## 通解适配忽略配置文件
+## 编译工具：
+## WinBoll 分支编译工具：Android Studio
+## AIDEPro 分支编译工具：AIDE Pro
+## AndroidIDE 分支编译工具：AndrioidIDE
+
+## 忽略 APP 项目应用内容，由具体分支创建与管理
 app/
+
+## 忽略根项目的编译配置，编译环境由具体分支创建与管理
+settings.gradle
+
+## 忽略 WinBoll 编译环境
+.winboll
+
+## 忽略 AndroidIDE 编译环境
+.androidide
+
+## 忽略 GitHub 编译环境
+.github
+
+## 忽略秘钥文件夹模块
+keystore/
