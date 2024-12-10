@@ -83,7 +83,7 @@ lint/tmp/
 # lint/reports/
 
 ## The general solution is ignored file
-## 通解适配忽略配置文件
+## 通解适配文件忽略要求
 ## 编译工具：
 ## WinBoll 分支编译工具：Android Studio
 ## AIDEPro 分支编译工具：AIDE Pro
@@ -104,5 +104,16 @@ settings.gradle
 ## 忽略 GitHub 编译环境
 .github
 
+## 忽略根项目 Gradle 配置冲突
+/gradle/
+/build.gradle
+/gradlew
+/gradle.properties
+/gradlew.bat
+/settings.gradle
+
+## 忽略 Gradle 工具输出
+/.gradle/
+
 ## 忽略秘钥文件夹模块
-keystore/
+/keystore/
